@@ -1,0 +1,33 @@
+.button {
+    width: 200px;
+    margin-right: 25px;
+    margin-left: 25px;
+    opacity: 1;
+    background-image: none;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    font-size: 40px;
+    height: 100px;
+}
+
+.mainDialogue {
+    align-items: center;
+    align-self: center;
+    font-size: 50px;
+    -unity-font-style: normal;
+    background-color: rgba(185, 102, 146, 0.7);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
