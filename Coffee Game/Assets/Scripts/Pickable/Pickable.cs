@@ -22,15 +22,7 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         rb = GetComponentInChildren<Rigidbody2D>();
         collider = GetComponentInChildren<Collider2D>();
     }
-
-    public void PickUp(Transform parent)
-    {
-        transform.SetParent(parent, true);
-        transform.localPosition = new Vector3(0f, 0f, transform.localPosition.z);
-        if (rb is null) return;
-        rb.bodyType = RigidbodyType2D.Kinematic;
-    }
-
+    
     public void Drop()
     {
         transform.SetParent(null);
@@ -69,17 +61,15 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         }
         return true;
     }
-
+    
     public void HoverEnter(Hand hand)
     {
-        //Debug.Log("HOVER ENTER");
         var colTween = _mainSprite.DOColor(initialColor * 1.05f, 0.1f);
         colTween.id = colorTweenId;
     }
 
     public void ExitHover()
     {
-        //Debug.Log("EXIT HOVER");
         DOTween.Kill(colorTweenId);
         var colTween = _mainSprite.DOColor(initialColor, 0.1f);
         colTween.id = colorTweenId;
