@@ -1,44 +1,23 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PortafilterSnapZone : MonoBehaviour, IInteractable
+public class PortafilterSnapZone : SnapZone
 {
-    private IPortafilterSnap machine;
-
-    [SerializeField] private Transform snapPosition;
-
     public UnityEvent<Portafilter> onPortafilterSnapped;
-    
-    private void Start()
-    {
-        snapPosition ??= transform;
-    }
 
-    public bool Interact(Hand hand)
+    public override bool Interact(Hand hand)
     {
-        if (hand.GetPickableInHand() is Portafilter)
+        Debug.Log("PortafilterSnapZones");
+        Pickable pick = hand.GetPickableInHand();
+        if (pick is Portafilter p)
         {
-            Portafilter p = hand.GetPickableInHand() as Portafilter;
-            hand.SnapPickable(transform);
+            hand.GetPickableInHand().SetSnapZone(this);
+            pickable = pick;
+            hand.SnapPickable(snapPosition);
             onPortafilterSnapped.Invoke(p);
             return true;
         }
 
         return false;
-    }
-
-    public void HoverEnter(Hand hand)
-    {
-        
-    }
-
-    public void ExitHover()
-    {
-        
-    }
-
-    public void EndInteraction()
-    {
-        
     }
 }

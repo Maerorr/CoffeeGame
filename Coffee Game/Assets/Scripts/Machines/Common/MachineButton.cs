@@ -21,7 +21,6 @@ public class MachineButton : MonoBehaviour, IInteractable
     public bool Interact(Hand hand)
     {
         spriteRenderer.color = initialColor * pressHighlightAmount;
-        Debug.Log("ON PRESS INVOKED");
         onPress.Invoke();
         return true;
     }
@@ -29,7 +28,6 @@ public class MachineButton : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
         spriteRenderer.color = initialColor;
-        Debug.Log("ON RELEASE INVOKED");
         onRelease.Invoke();
     }
 

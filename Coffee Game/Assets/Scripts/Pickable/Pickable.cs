@@ -1,22 +1,24 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler, IPointerExitHandler
 {
     protected bool isPicked = false;
+    private SnapZone snapZone;
 
     [SerializeField] private SpriteRenderer _mainSprite;
     private Rigidbody2D rb;
     public Collider2D collider;
     private Color initialColor;
-
+    private float initialZ;
+    
     private Guid colorTweenId = System.Guid.NewGuid();
 
-    private void Start()
+    protected void Start()
     {
         initialColor = _mainSprite.color;
+        initialZ = transform.position.z;
         rb = GetComponentInChildren<Rigidbody2D>();
         collider = GetComponentInChildren<Collider2D>();
     }
@@ -32,6 +34,8 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
     public void Drop()
     {
         transform.SetParent(null);
+        Vector3 pos = transform.position;
+        transform.position = new Vector3(pos.x, pos.y, initialZ);
         if (rb is not null) rb.bodyType = RigidbodyType2D.Dynamic;
         collider.enabled = true;
         isPicked = false;
@@ -43,6 +47,8 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         if (isPicked)
         {
             transform.SetParent(null);
+            Vector3 pos = transform.position;
+            transform.position = new Vector3(pos.x, pos.y, initialZ);
             if (rb is not null) rb.bodyType = RigidbodyType2D.Dynamic;
             collider.enabled = true;
             isPicked = false;
@@ -52,9 +58,13 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         {
             transform.SetParent(hand.transform, true);
             hand.SetPickable(this);
-            transform.localPosition = new Vector3(0f, 0f, transform.localPosition.z);
+            transform.localPosition = new Vector3(0f, 0f, 0f);
             if (rb is not null) rb.bodyType = RigidbodyType2D.Kinematic;
             collider.enabled = false;
+            
+            if (snapZone is not null) snapZone.Unsnap();
+            snapZone = null;
+            
             isPicked = true;
         }
         return true;
@@ -89,5 +99,10 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         Vector3 position = t.position;
         position.z = transform.position.z;
         transform.position = position;
+    }
+
+    public void SetSnapZone(SnapZone sz)
+    {
+        snapZone = sz;
     }
 }

@@ -31,7 +31,7 @@ public class Hand : MonoBehaviour
     {
         Vector2 v = ctx.ReadValue<Vector2>();
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(v.x, v.y, 0.5f));
-        transform.position = pos;
+        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
         
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.zero);
         if (hit.collider is null)
@@ -89,14 +89,12 @@ public class Hand : MonoBehaviour
     /// <returns>True if the pickables are the same or if hand is empty (is null). False if the pickables are not the same.</returns>
     public bool ComparePickable(Pickable p)
     {
-        Debug.Log(p == _handPickable);
         if (_handPickable is null) return true;
         return p == _handPickable;
     }
 
     public void SetPickable(Pickable p)
     {
-        Debug.Log($"Setting pickable to {p.gameObject.name}");
         _handPickable = p;
     }
 
@@ -107,6 +105,7 @@ public class Hand : MonoBehaviour
 
     public void SnapPickable(Transform t)
     {
+        if (_handPickable is null) return;
         _handPickable.SnapTo(t);
         _handPickable = null;
     }
