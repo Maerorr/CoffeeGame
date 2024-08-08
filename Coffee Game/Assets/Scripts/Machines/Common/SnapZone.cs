@@ -22,6 +22,7 @@ public abstract class SnapZone: MonoBehaviour, IInteractable
     }
     
     public UnityEvent<Pickable> onPickableSnapped;
+    public UnityEvent<Pickable> onPickableUnSnapped;
     
     private void Start()
     {
@@ -57,6 +58,7 @@ public abstract class SnapZone: MonoBehaviour, IInteractable
     
     public void Unsnap()
     {
+        onPickableUnSnapped.Invoke(pickable);
         pickable = null;
     }
 }
