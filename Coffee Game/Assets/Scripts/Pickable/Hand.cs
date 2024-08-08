@@ -45,8 +45,14 @@ public class Hand : MonoBehaviour
             currentRayCastedObject = null;
             return;
         }
-        // Debug.Log($"RAYCAST HIT: {hit.transform.name}");
-        if (hit.transform.TryGetComponent(out IInteractable interactable))
+        //Debug.Log($"RAYCAST HIT: {hit.transform.name}");
+        
+        // the interactable can be a child or a parent of the current collider
+        IInteractable interactable;
+        interactable = hit.transform.GetComponentInChildren<IInteractable>();
+        interactable ??= hit.transform.GetComponentInParent<IInteractable>();
+
+        if (interactable is not null)
         {
             currentInteractable = interactable;
             // '==' is a REFERENCE comparison, which is what we want here

@@ -50,6 +50,10 @@ public class EspressoMachine : MonoBehaviour
     
     public void OnButtonUp(int id)
     {
-        StopPouring(id);
+        if (portafilterSnaps[id].GetPickable() is Portafilter p &&
+            cups[id].GetPickable() is Cup c)
+        {
+            StopPouring(id);
+        }
     }
 }

@@ -7,7 +7,6 @@ public class PortafilterSnapZone : SnapZone
 
     public override bool Interact(Hand hand)
     {
-        Debug.Log("PortafilterSnapZones");
         Pickable pick = hand.GetPickableInHand();
         if (pick is Portafilter p)
         {
