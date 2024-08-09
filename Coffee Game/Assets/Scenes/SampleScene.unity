@@ -545,15 +545,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapPosition: {fileID: 199295778}
+  _id: 0
   onPickableSnapped:
     m_PersistentCalls:
       m_Calls: []
   onPickableUnSnapped:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 268289652}
+        m_TargetAssemblyTypeName: EspressoMachine, Assembly-CSharp
+        m_MethodName: UnsetPickable
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onPortafilterSnapped:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 268289652}
+        m_TargetAssemblyTypeName: EspressoMachine, Assembly-CSharp
+        m_MethodName: SetPortafilter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &199295778
 Transform:
   m_ObjectHideFlags: 0
@@ -675,6 +700,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5969664191096383053, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
   m_PrefabInstance: {fileID: 4471404497052714283}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &209515562 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+  m_PrefabInstance: {fileID: 768233115}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &265978542
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,7 +715,7 @@ GameObject:
   m_Component:
   - component: {fileID: 265978543}
   - component: {fileID: 265978544}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: dropper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -772,7 +802,7 @@ GameObject:
   m_Component:
   - component: {fileID: 268289653}
   - component: {fileID: 268289652}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Espresso Machine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -791,10 +821,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c9fdb6a5b18c34d8468fc62dffa5e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portafilterSnaps:
-  - {fileID: 199295777}
-  cups:
-  - {fileID: 883811813}
   buttons:
   - {fileID: 143567450}
 --- !u!4 &268289653
@@ -827,7 +853,7 @@ GameObject:
   m_Component:
   - component: {fileID: 393163028}
   - component: {fileID: 393163029}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -916,7 +942,7 @@ GameObject:
   - component: {fileID: 427019292}
   - component: {fileID: 427019293}
   - component: {fileID: 427019294}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestCup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -932,11 +958,12 @@ Transform:
   m_GameObject: {fileID: 427019290}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.184, y: -2.381, z: -0.15}
+  m_LocalPosition: {x: -4.061, y: -2.355, z: -0.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1398913721}
+  - {fileID: 209515562}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &427019292
@@ -953,6 +980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainSprite: {fileID: 1398913724}
   collider: {fileID: 0}
+  capacity: 150
 --- !u!50 &427019293
 Rigidbody2D:
   serializedVersion: 5
@@ -1086,6 +1114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24d0a0da3aa129a4e88f6b916c1a4daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handRaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!4 &487917262
 Transform:
   m_ObjectHideFlags: 0
@@ -1488,7 +1519,7 @@ GameObject:
   m_Component:
   - component: {fileID: 665783112}
   - component: {fileID: 665783113}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1565,6 +1596,103 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &768233115
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 427019291}
+    m_Modifications:
+    - target: {fileID: 3562470291250841466, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_Name
+      value: Meter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3562470291250841466, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777165434965511753, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.091
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.549
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969664191096383053, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6298850824026490547, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: bg
+      value: 
+      objectReference: {fileID: 1162535424}
+    - target: {fileID: 6474763049038710084, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474763049038710084, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474763049038710084, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
 --- !u!1 &779614864
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,7 +1703,7 @@ GameObject:
   m_Component:
   - component: {fileID: 779614865}
   - component: {fileID: 779614866}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1664,7 +1792,7 @@ GameObject:
   - component: {fileID: 821395926}
   - component: {fileID: 821395925}
   - component: {fileID: 821395927}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1832,7 +1960,7 @@ GameObject:
   m_Component:
   - component: {fileID: 840983262}
   - component: {fileID: 840983263}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1906,16 +2034,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapPosition: {fileID: 476954682}
+  _id: 0
   onPickableSnapped:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 268289652}
+        m_TargetAssemblyTypeName: EspressoMachine, Assembly-CSharp
+        m_MethodName: SetCup
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1923,7 +2052,19 @@ MonoBehaviour:
         m_CallState: 2
   onPickableUnSnapped:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 268289652}
+        m_TargetAssemblyTypeName: EspressoMachine, Assembly-CSharp
+        m_MethodName: SetCup
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &883811814
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2051,7 +2192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 907920985}
   - component: {fileID: 907920986}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2140,7 +2281,7 @@ GameObject:
   - component: {fileID: 1046294276}
   - component: {fileID: 1046294277}
   - component: {fileID: 1046294278}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: snap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2276,6 +2417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapPosition: {fileID: 1046294275}
+  _id: 0
   onPickableSnapped:
     m_PersistentCalls:
       m_Calls: []
@@ -2285,6 +2427,11 @@ MonoBehaviour:
   onPortafilterSnapped:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1162535424 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5969664191096383053, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
+  m_PrefabInstance: {fileID: 768233115}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1229009310
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,7 +2529,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1398913721}
   - component: {fileID: 1398913724}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestCup_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2470,7 +2617,7 @@ GameObject:
   - component: {fileID: 1588575205}
   - component: {fileID: 1588575206}
   - component: {fileID: 1588575207}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2908,7 +3055,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1791922802}
   - component: {fileID: 1791922803}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2995,7 +3142,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1829273052}
   - component: {fileID: 1829273051}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: KnockBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3128,7 +3275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1923971271}
   - component: {fileID: 1923971272}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3293,7 +3440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2062667456}
   - component: {fileID: 2062667458}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
