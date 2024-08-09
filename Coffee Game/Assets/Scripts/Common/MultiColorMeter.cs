@@ -12,6 +12,7 @@ public class MultiColorMeter : MonoBehaviour
 
     private List<ColorBarData> contents = new List<ColorBarData>();
     private List<GameObject> spawnedBars = new List<GameObject>();
+    private List<GameObject> ruler = new List<GameObject>();
 
     private void Start() {
         rootSize = (Vector2) barRoot.localScale;
@@ -76,6 +77,9 @@ public class MultiColorMeter : MonoBehaviour
     }
 
     public void SetRuler(float bigDistance, int subMeasures) {
+        foreach(var r in ruler) {
+            Destroy(r);
+        }
         float smallDistance = bigDistance / (subMeasures + 1);
         float currentY = -rootSize.y / 2f + smallDistance;
         int counter = 0;
@@ -94,6 +98,7 @@ public class MultiColorMeter : MonoBehaviour
             Vector3 pos = new Vector3(0.5f - xSize / 2f, currentY , -0.01f);
             bar.transform.localPosition = pos;
             currentY += smallDistance;
+            ruler.Add(bar);
         }
     }
 
