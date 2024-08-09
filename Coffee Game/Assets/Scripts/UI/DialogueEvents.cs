@@ -9,26 +9,20 @@ public class DialogueEvents : MonoBehaviour
 
     private Button _buttonOk;
     private Button _buttonExplain;
-    private Label _mainDialogue;
+    public Label _mainDialogue;
+
+    private string order;
+
+    private string explanation;
 
     private List<string> orders;
 
-    private void initializeOrders() {
-        orders = new List<string> {
-            "A venti coffee frappucino with two scoops of ice, five pumps of frap roast, and double blended.",
-            "A venti mango black tea lemonade with 24 pumps of mango.",
-            "A venti salted caramel mocha frappucino with five pumps of frap roast, four pumps of caramel sauce, four pumps of caramel syrup, three pumps of mocha, three pumps of toffee nut syrup, double blended with extra whipped cream.",
-            "A venti coffee with 10 Splenda packets and whipped cream.",
-            "A doppio espresso with 20 shots of espresso and 10 pumps of white mocha."
-        };
-    }
 
     private void Awake() {
         _document = GetComponent<UIDocument>();
 
         RegisterEventListeners();
 
-        initializeOrders();
     }
 
     private void OnEnable() {
@@ -61,13 +55,36 @@ public class DialogueEvents : MonoBehaviour
 
     private void OnOkClick(ClickEvent evt) {
         Debug.Log("Ok pressed");
-        var random = new System.Random();
-        int index = random.Next(orders.Count);
-        _mainDialogue.text = orders[index];
     }
 
     private void OnExplainClick(ClickEvent evt) {
         Debug.Log("Explain pressed");
+        if (_buttonExplain.text == "Go back") {
+            setClientDialogue(order);
+            _buttonExplain.text = "Explain";
+        } else {
+            setClientDialogue(explanation);
+            _buttonExplain.text = "Go back";
+        }
+    }
+
+    public void setClientDialogue(string dialogue)
+    {
+        if (_mainDialogue != null)
+        {
+            _mainDialogue.text = dialogue;
+        }
+    }
+
+    public void setClientOrder(string order)
+    {
+        this.order = order;
+        setClientDialogue(order);
+    }
+
+    public void setClientExplanation(string explanation)
+    {
+        this.explanation = explanation;
     }
 
 }
