@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 74dec9558a9c2174eb41d911179601e9
+guid: b004e547e7fe817428cc0d12c21f93a5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4664869140342198935
-    second: TestCup_0
+      213: 2063778849044476315
+    second: ziomek_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TestCup_0
+      name: ziomek_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 97
-        width: 504
-        height: 319
+        x: 0
+        y: 0
+        width: 369
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 79257c184c1fcb040800000000000000
-      internalID: 4664869140342198935
+      spriteID: b91b248cde304ac10800000000000000
+      internalID: 2063778849044476315
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      TestCup_0: 4664869140342198935
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

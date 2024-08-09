@@ -1,0 +1,10 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/DialogueStyle.uss?fileID=7433441132597879392&amp;guid=fc8b703c46e5b814dab1969ed2326f99&amp;type=3#DialogueStyle" />
+    <engine:VisualElement name="Container" style="flex-grow: 1; align-items: center; margin-left: 0; left: 0;">
+        <engine:Label text="A venti pumpkin spice latte with eight shots of espresso, seven pumps of pumpkin sauce, and one pump of maple pecan sauce." name="MainDialogue" class="mainDialogue" style="max-width: 1500px; white-space: normal; top: 25%;" />
+        <engine:VisualElement name="ButtonContainer" style="flex-grow: 1; align-items: center; align-content: auto; align-self: center; justify-content: flex-start; flex-direction: row;">
+            <engine:Button text="Ok" name="OkButton" class="button" style="background-color: rgb(185, 102, 146);" />
+            <engine:Button text="Explain" name="ExplainButton" class="button" style="background-color: rgb(185, 102, 146);" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
