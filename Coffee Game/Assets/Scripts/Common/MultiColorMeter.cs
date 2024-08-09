@@ -14,7 +14,7 @@ public class MultiColorMeter : MonoBehaviour
     private List<GameObject> spawnedBars = new List<GameObject>();
 
     private void Start() {
-        rootSize = barRoot.GetComponent<SpriteRenderer>().size;
+        rootSize = (Vector2) barRoot.localScale;
     }
 
     // This method searches for existing color in static Colors class, if the color cannot be found by name, white is returned
@@ -75,12 +75,33 @@ public class MultiColorMeter : MonoBehaviour
         }
     }
 
+    public void SetRuler(float bigDistance, int subMeasures) {
+        float smallDistance = bigDistance / (subMeasures + 1);
+        float currentY = -rootSize.y / 2f + smallDistance;
+        int counter = 0;
+        while (currentY < rootSize.y / 2f) {
+            var bar = Instantiate(barPrefab, barRoot);
+            bar.GetComponentInChildren<SpriteRenderer>().color = Color.black;
+            float xSize = 0.25f;
+            if (counter == subMeasures) {
+                xSize = 0.45f;
+                counter = 0;
+            } else {
+                counter ++;
+            }
+            
+            bar.transform.localScale = new Vector3(xSize, 0.015f, 1f);
+            Vector3 pos = new Vector3(0.5f - xSize / 2f, currentY , -0.01f);
+            bar.transform.localPosition = pos;
+            currentY += smallDistance;
+        }
+    }
+
     public void SetVisible(bool visible) {
         barRoot.gameObject.SetActive(visible);
         bg.SetActive(visible);
         spawnedBars.ForEach(b => b.SetActive(visible));
     }
-
 }
 
 public struct ColorBarData {

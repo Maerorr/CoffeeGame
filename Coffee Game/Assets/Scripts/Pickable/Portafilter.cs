@@ -17,7 +17,9 @@ public class Portafilter : Pickable
         coffeeGrounds.SetActive(false);
         liquid.SetActive(false);
         meter = GetComponentInChildren<MultiColorMeter>();
+        meter.SetRuler(0.5f, 2);
         meter.SetVisible(false);
+        
     }
     
     public void AddCoffee(float c)
