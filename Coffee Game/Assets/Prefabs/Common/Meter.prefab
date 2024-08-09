@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barRoot: {fileID: 3285294255951798112}
+  bg: {fileID: 0}
   barPrefab: {fileID: 8961183388015875034, guid: 0833cd42109abdc46bad6e92f28d1307, type: 3}
 --- !u!1 &3777165434965511753
 GameObject:

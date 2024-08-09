@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class PortafilterSnapZone : SnapZone
 {
-    public UnityEvent<Portafilter> onPortafilterSnapped;
+    public UnityEvent<Portafilter, int> onPortafilterSnapped;
 
     public override bool Interact(Hand hand)
     {
@@ -13,7 +13,7 @@ public class PortafilterSnapZone : SnapZone
             hand.GetPickableInHand().SetSnapZone(this);
             pickable = pick;
             hand.SnapPickable(snapPosition);
-            onPortafilterSnapped.Invoke(p);
+            onPortafilterSnapped.Invoke(p, id);
             return true;
         }
 

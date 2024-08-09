@@ -7,6 +7,8 @@ public class Hand : MonoBehaviour
     private GameObject currentRayCastedObject = null;
     private IInteractable currentInteractable = null;
 
+    [SerializeField] LayerMask handRaycastLayerMask;
+
     public void OnLeftClick(InputAction.CallbackContext ctx)
     {
         if (ctx.phase == InputActionPhase.Canceled)
@@ -33,7 +35,7 @@ public class Hand : MonoBehaviour
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(v.x, v.y, 0.5f));
         transform.position = new Vector3(pos.x, pos.y, transform.position.z);
         
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.zero, Mathf.Infinity, handRaycastLayerMask);
         if (hit.collider is null)
         {
             if (currentInteractable is not null)
@@ -60,6 +62,10 @@ public class Hand : MonoBehaviour
             {
                 interactable.HoverEnter(this);
             }
+        } else {
+            currentInteractable.EndInteraction();
+            currentInteractable.ExitHover();
+            currentInteractable = null;
         }
 
         currentRayCastedObject = hit.transform.gameObject;
@@ -69,6 +75,7 @@ public class Hand : MonoBehaviour
     {
         if (currentInteractable is not null)
         {
+            currentInteractable.ExitHover();
             currentInteractable.Interact(this);
         }
     }

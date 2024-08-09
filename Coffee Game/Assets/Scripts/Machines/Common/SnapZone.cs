@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,7 +8,7 @@ public abstract class SnapZone: MonoBehaviour, IInteractable
     [SerializeField] protected Transform snapPosition;
     protected Pickable pickable;
     
-    private int _id;
+    [SerializeField] private int _id;
 
     public int id
     {
@@ -21,8 +22,8 @@ public abstract class SnapZone: MonoBehaviour, IInteractable
         }
     }
     
-    public UnityEvent<Pickable> onPickableSnapped;
-    public UnityEvent<Pickable> onPickableUnSnapped;
+    public UnityEvent<Pickable, int> onPickableSnapped;
+    public UnityEvent<Pickable, int> onPickableUnSnapped;
     
     private void Start()
     {
@@ -35,7 +36,7 @@ public abstract class SnapZone: MonoBehaviour, IInteractable
         pickable = hand.GetPickableInHand();
         pickable.SetSnapZone(this);
         hand.SnapPickable(snapPosition);
-        onPickableSnapped.Invoke(pickable);
+        onPickableSnapped.Invoke(pickable, id);
         return true;
     }
     
@@ -58,7 +59,7 @@ public abstract class SnapZone: MonoBehaviour, IInteractable
     
     public void Unsnap()
     {
-        onPickableUnSnapped.Invoke(pickable);
+        onPickableUnSnapped.Invoke(pickable, id);
         pickable = null;
     }
 }

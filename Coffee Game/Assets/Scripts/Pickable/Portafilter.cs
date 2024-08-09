@@ -8,8 +8,6 @@ public class Portafilter : Pickable
     public GameObject coffeeGrounds;
     public GameObject liquid;
 
-    
-
     MultiColorMeter meter;
 
     private new void Start()
@@ -49,5 +47,19 @@ public class Portafilter : Pickable
 
     public void ToggleMeterVisibility(bool visible) {
         meter.SetVisible(visible);
+    }
+
+    public override void HoverEnter(Hand hand)
+    {
+        Highlight();
+        // machines that require knowing the amount of grounds will trigger the bar themselves
+        if (snapZone is null) meter.SetVisible(true);
+    }
+
+    public override void ExitHover()
+    {
+        EndHighlight();
+        // if the filter is snapped to a machine dont hide the bar
+        if (snapZone is null) meter.SetVisible(false);
     }
 }

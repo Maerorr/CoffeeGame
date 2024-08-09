@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class EspressoMachine : MonoBehaviour
 {
-    [SerializeField] private List<SnapZone> portafilterSnaps = new List<SnapZone>();
-    [SerializeField] private List<SnapZone> cups = new List<SnapZone>();
+    //[SerializeField] private List<SnapZone> portafilterSnaps = new List<SnapZone>();
+    //[SerializeField] private List<SnapZone> cups = new List<SnapZone>();
+
+    private List<Portafilter> portafilters = new List<Portafilter>();
+    private List<Cup> cups = new List<Cup>();
+
     [SerializeField] private List<MachineButton> buttons = new List<MachineButton>();
     private List<Coroutine> pouringCoroutines = new List<Coroutine>();
 
     private void Start()
     {
-        for (int i = 0; i < portafilterSnaps.Count; i++)
+        for (int i = 0; i < 8; i++)
         {
             pouringCoroutines.Add(null);
+            portafilters.Add(null);
+            cups.Add(null);
         }
     }
 
@@ -25,7 +31,7 @@ public class EspressoMachine : MonoBehaviour
     private void StopPouring(int id)
     {
         StopCoroutine(pouringCoroutines[id]);
-        ((Portafilter)portafilterSnaps[id].GetPickable()).ToggleLiquid(false);
+        portafilters[id].ToggleLiquid(false);
     }
 
     private IEnumerator Pour(int id, Portafilter p, Cup cup)
@@ -35,23 +41,47 @@ public class EspressoMachine : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.033f);
-            cup.AddLiquid(1f * 0.033f);
+            cup.AddLiquid(10f * 0.033f);
         }
     }
     
+    public void SetPortafilter(Portafilter p, int id) {
+        portafilters[id] = p;
+    }
+
+    public void SetCup(Pickable c, int id) {
+        if (c is Cup cup) {
+            cup.ToggleMeterVisibility(true);
+            cups[id] = cup;
+        }
+    }
+
+    public void UnsetPickable(Pickable p, int id) {
+        if (p is Portafilter portafilter) {
+            portafilter.ToggleMeterVisibility(false);
+            portafilters[id] = null;
+            return;
+        }
+
+        if (p is Cup c) {
+            c.ToggleMeterVisibility(false);
+            cups[id] = null;
+        }
+    }
+
     public void OnButtonPress(int id)
     {
-        if (portafilterSnaps[id].GetPickable() is Portafilter p &&
-            cups[id].GetPickable() is Cup c)
+        if (portafilters[id] is not null &&
+            cups[id] is not null)
         {
-            StartPouring(id, p, c);
+            StartPouring(id, portafilters[id], cups[id]);
         }
     }
     
     public void OnButtonUp(int id)
     {
-        if (portafilterSnaps[id].GetPickable() is Portafilter p &&
-            cups[id].GetPickable() is Cup c)
+        if (portafilters[id] is not null &&
+            cups[id] is not null)
         {
             StopPouring(id);
         }

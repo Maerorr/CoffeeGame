@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler, IPointerExitHandler
 {
     protected bool isPicked = false;
-    private SnapZone snapZone;
+    protected SnapZone snapZone;
 
     [SerializeField] private SpriteRenderer _mainSprite;
     private Rigidbody2D rb;
@@ -62,14 +62,17 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         return true;
     }
     
-    public void HoverEnter(Hand hand)
-    {
+    public abstract void HoverEnter(Hand hand);
+
+    public abstract void ExitHover();
+
+    
+    protected void Highlight() {
         var colTween = _mainSprite.DOColor(initialColor * 1.05f, 0.1f);
         colTween.id = colorTweenId;
     }
 
-    public void ExitHover()
-    {
+    protected void EndHighlight() {
         DOTween.Kill(colorTweenId);
         var colTween = _mainSprite.DOColor(initialColor, 0.1f);
         colTween.id = colorTweenId;

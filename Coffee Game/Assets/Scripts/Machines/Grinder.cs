@@ -17,13 +17,13 @@ public class Grinder : MonoBehaviour
         pSnap.onPickableUnSnapped.AddListener(PickableUnsnapped);
     }
 
-    private void SetPortafilter(Portafilter p)
+    private void SetPortafilter(Portafilter p, int _)
     {
         _portafilter = p;
         _portafilter.ToggleMeterVisibility(true);
     }
 
-    private void PickableUnsnapped(Pickable pick) {
+    private void PickableUnsnapped(Pickable pick, int _) {
         if (pick is Portafilter p) {
             p.ToggleMeterVisibility(false);
         }
