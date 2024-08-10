@@ -4,11 +4,9 @@ using UnityEngine.UIElements;
 public class ClientHandler : MonoBehaviour, IInteractable
 {
 
-    // serialize field do scriptable object
-    // dodac sprite renderer z obiektu Client
-
     [SerializeField]
-    private ClientSO client;
+    private DayQueueSO dayQueue;
+    private int currentClient = 0;
     private SpriteRenderer spriteRenderer;
     public UIDocument clientDialogue;
     public DialogueEvents dialogueEvents;
@@ -37,16 +35,30 @@ public class ClientHandler : MonoBehaviour, IInteractable
         }
 
         clientDialogue.gameObject.SetActive(!clientDialogue.gameObject.activeSelf);
-        dialogueEvents.setClientOrder(client.order);
-        dialogueEvents.setClientExplanation(client.explanation);
+        dialogueEvents.setClientOrder(dayQueue.queue[currentClient].order);
+        dialogueEvents.setClientExplanation(dayQueue.queue[currentClient].explanation);
         return true;
+    }
+
+    public void nextClient()
+    {
+        if (currentClient < dayQueue.queue.Count - 1)
+        {
+            currentClient += 1;
+            spriteRenderer.sprite = dayQueue.queue[currentClient].sprite;
+            Interact(null);
+        }
+        else
+        {
+            Debug.Log("No more clients in the queue");
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = client.sprite;
+        spriteRenderer.sprite = dayQueue.queue[currentClient].sprite;
     }
 
     // Update is called once per frame

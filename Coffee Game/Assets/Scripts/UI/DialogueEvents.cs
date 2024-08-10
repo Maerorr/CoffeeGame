@@ -15,7 +15,7 @@ public class DialogueEvents : MonoBehaviour
 
     private string explanation;
 
-    private List<string> orders;
+    public ClientHandler clientHandler;
 
 
     private void Awake() {
@@ -54,6 +54,7 @@ public class DialogueEvents : MonoBehaviour
     }
 
     private void OnOkClick(ClickEvent evt) {
+        clientHandler.nextClient();
         Debug.Log("Ok pressed");
     }
 

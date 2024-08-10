@@ -738,7 +738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59b8780711c1764eb031c336fdab053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  client: {fileID: 11400000, guid: f700ba10eb1e2294ba418be959f373e4, type: 2}
+  dayQueue: {fileID: 11400000, guid: 2ffde8027fe4243419e088a68b13e037, type: 2}
   clientDialogue: {fileID: 1331328856}
   dialogueEvents: {fileID: 1331328858}
 --- !u!1 &619394800
@@ -889,6 +889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e347892e669a9f041b5593ae861913ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clientHandler: {fileID: 614800410}
 --- !u!1 &2051315960
 GameObject:
   m_ObjectHideFlags: 0
