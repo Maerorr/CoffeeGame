@@ -911,6 +911,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttons:
   - {fileID: 143567450}
+  pourSpeed: 10
 --- !u!4 &268289653
 Transform:
   m_ObjectHideFlags: 0
@@ -1814,7 +1815,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.25
+      value: -0.31
       objectReference: {fileID: 0}
     - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4204,7 +4205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.1
+      value: -0.17
       objectReference: {fileID: 0}
     - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
       propertyPath: m_LocalRotation.w

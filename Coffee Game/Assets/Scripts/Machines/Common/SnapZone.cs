@@ -32,7 +32,6 @@ public abstract class SnapZone: MonoBehaviour, IInteractable
     
     public virtual bool Interact(Hand hand)
     {
-        Debug.Log("PickableSnapZone");
         pickable = hand.GetPickableInHand();
         pickable.SetSnapZone(this);
         hand.SnapPickable(snapPosition);
