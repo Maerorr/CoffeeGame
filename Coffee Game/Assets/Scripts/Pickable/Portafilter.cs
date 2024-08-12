@@ -45,6 +45,7 @@ public class Portafilter : Pickable
         coffeeAmount = 0f;
         coffeeGrounds.SetActive(false);
         used = false;
+        meter.SetContent("grounds", 0f, Colors.Get("espresso"));
     }
 
     public void ToggleMeterVisibility(bool visible) {

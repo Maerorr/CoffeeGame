@@ -12,6 +12,11 @@ public class EspressoMachine : MonoBehaviour
 
     [SerializeField] private List<MachineButton> buttons = new List<MachineButton>();
     private List<Coroutine> pouringCoroutines = new List<Coroutine>();
+    [SerializeField] float pourSpeed = 10f;
+
+    private float pourTimeFrame = 0.033f;
+
+    private Liquid coffee;
 
     private void Start()
     {
@@ -21,6 +26,8 @@ public class EspressoMachine : MonoBehaviour
             portafilters.Add(null);
             cups.Add(null);
         }
+
+        coffee = new Liquid(LiquidType.Espresso, pourSpeed * pourTimeFrame);
     }
 
     private void StartPouring(int id, Portafilter p, Cup cup)
@@ -40,8 +47,8 @@ public class EspressoMachine : MonoBehaviour
         p.UseCoffee();
         while (true)
         {
-            yield return new WaitForSeconds(0.033f);
-            cup.AddLiquid(10f * 0.033f);
+            yield return new WaitForSeconds(pourTimeFrame);
+            cup.AddLiquid(coffee);
         }
     }
     

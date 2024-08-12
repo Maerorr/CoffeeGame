@@ -68,7 +68,7 @@ public class MultiColorMeter : MonoBehaviour
         foreach(var c in contents) {
             var bar = Instantiate(barPrefab, barRoot);
             bar.GetComponentInChildren<SpriteRenderer>().color = c.color;
-            bar.transform.localScale = new Vector3(rootSize.x, c.val, 1f);
+            bar.transform.localScale = new Vector3(1f, c.val, 1f);
             Vector3 pos = new Vector3(0f, currentBottom + c.val / 2f ,-0.01f);
             bar.transform.localPosition = pos;
             spawnedBars.Add(bar);
@@ -95,7 +95,7 @@ public class MultiColorMeter : MonoBehaviour
             }
             
             bar.transform.localScale = new Vector3(xSize, 0.015f, 1f);
-            Vector3 pos = new Vector3(0.5f - xSize / 2f, currentY , -0.01f);
+            Vector3 pos = new Vector3(0.5f - xSize / 2f, currentY , -0.02f);
             bar.transform.localPosition = pos;
             currentY += smallDistance;
             ruler.Add(bar);
