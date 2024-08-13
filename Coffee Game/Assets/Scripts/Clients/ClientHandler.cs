@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.EventSystems;
 
 public class ClientHandler : MonoBehaviour, IInteractable
 {
@@ -28,6 +29,12 @@ public class ClientHandler : MonoBehaviour, IInteractable
 
     public bool Interact(Hand hand)
     {
+        if (Utils.IsAnyUIElementWithTagActive())
+        {
+            Debug.Log("ignoring");
+            return false;
+        }
+
         if (clientDialogue == null)
         {
             Debug.LogError("UIDocument is not assigned.");
@@ -62,6 +69,6 @@ public class ClientHandler : MonoBehaviour, IInteractable
 
     void Update()
     {
-        
+
     }
 }
