@@ -2,16 +2,26 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
+using UnityEngine.EventSystems;
+using System.Threading;
+using UnityEngine.InputSystem;
 
 public class CompendiumListManager : MonoBehaviour
 {
+    private const int itemsPerPage = 12;
+    private int currentPage = 0;
 
     private UIDocument _document;
+    private VisualElement _root;
     private Button _recipeButton;
 
     private Button _toppingButton;
 
     private Button _bunCakeButton;
+
+    private Button _nextPageButton;
+
+    private Button _previousPageButton;
 
     private Button _closeButton;
     private ScrollView _scrollView;
@@ -27,13 +37,15 @@ public class CompendiumListManager : MonoBehaviour
     {
         if (_document == null) return;
 
-        _leftPane = _document.rootVisualElement.Q("LeftPane") as VisualElement;
-        _rightPane = _document.rootVisualElement.Q("RightPane") as VisualElement;
+        _root = GetComponent<UIDocument>().rootVisualElement;
+
         _itemDetails = _document.rootVisualElement.Q("ItemDetails") as ScrollView;
         _recipeButton = _document.rootVisualElement.Q("RecipeButton") as Button;
         _toppingButton = _document.rootVisualElement.Q("ToppingButton") as Button;
         _bunCakeButton = _document.rootVisualElement.Q("BunCakeButton") as Button;
         _closeButton = _document.rootVisualElement.Q("CloseButton") as Button;
+        _nextPageButton = _document.rootVisualElement.Q("NextPageButton") as Button;
+        _previousPageButton = _document.rootVisualElement.Q("PreviousPageButton") as Button;
 
         if (_recipeButton != null)
             _recipeButton.RegisterCallback<ClickEvent>(ToggleRecipeList);
@@ -41,6 +53,14 @@ public class CompendiumListManager : MonoBehaviour
         if (_closeButton != null)
         {
             _closeButton.RegisterCallback<ClickEvent>(CloseCompendium);
+        }
+
+        if (recipeItems.Length > itemsPerPage)
+        {
+            _nextPageButton.visible = true;
+            _previousPageButton.visible = true;
+            _nextPageButton.RegisterCallback<ClickEvent>(HandleNextPage);
+            _previousPageButton.RegisterCallback<ClickEvent>(HandlePreviousPage);
         }
     }
 
@@ -57,19 +77,33 @@ public class CompendiumListManager : MonoBehaviour
 
     }
 
+    private void HandleNextPage(ClickEvent evt)
+    {
+        if (currentPage < recipeItems.Length / itemsPerPage)
+        {
+            BuildRecipeList(++currentPage);
+        }
+    }
+
+    private void HandlePreviousPage(ClickEvent evt)
+    {
+        if (currentPage > 0)
+        {
+            BuildRecipeList(--currentPage);
+        }
+    }
+
     private void CloseCompendium(ClickEvent evt)
     {
         _document.gameObject.SetActive(false);
     }
 
-    void BuildRecipeList()
+    void BuildRecipeList(int page)
     {
-        var root = GetComponent<UIDocument>().rootVisualElement;
 
-        _scrollView = root.Q<ScrollView>("RecipeItemList");
+        _scrollView = _root.Q<ScrollView>("RecipeItemList");
         _scrollView.Clear();
         _scrollView.AddToClassList("scroll-view");
-        int itemsPerPage = 12;
         int itemsPerRow = 3;
 
         for (int i = 0; i < itemsPerPage; i += itemsPerRow)
@@ -81,7 +115,7 @@ public class CompendiumListManager : MonoBehaviour
 
             for (int j = 0; j < itemsPerRow; j++)
             {
-                int itemIndex = i + j;
+                int itemIndex = page * itemsPerPage + i + j;
                 var itemContainer = new VisualElement();
 
                 itemContainer.AddToClassList("item-container");
@@ -132,6 +166,19 @@ public class CompendiumListManager : MonoBehaviour
         _itemDetails.Add(itemDescriptionLabel);
     }
 
+    public void Toggle(InputAction.CallbackContext ctx)
+    {
+        if (ctx.phase == InputActionPhase.Started)
+        {
+            _document.gameObject.SetActive(!_document.gameObject.activeSelf);
+            if (_document.gameObject.activeSelf == true)
+            {
+                RegisterEventListeners();
+                BuildRecipeList(currentPage);
+            }
+        }
+    }
+
     private void Awake()
     {
         _document = GetComponent<UIDocument>();
@@ -141,7 +188,7 @@ public class CompendiumListManager : MonoBehaviour
 
     void Start()
     {
-        BuildRecipeList();
+        BuildRecipeList(currentPage);
     }
 
 }
