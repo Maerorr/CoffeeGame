@@ -7,8 +7,8 @@ public class DialogueEvents : MonoBehaviour
 {
     private UIDocument _document;
 
-    private Button _okButton;
-    private Button _explainButton;
+    private Button _buttonOk;
+    private Button _buttonExplain;
     public Label _mainDialogue;
 
     private string order;
@@ -36,21 +36,21 @@ public class DialogueEvents : MonoBehaviour
     private void RegisterEventListeners() {
         if (_document == null) return;
 
-        _okButton = _document.rootVisualElement.Q("OkButton") as Button;
-        _explainButton = _document.rootVisualElement.Q("ExplainButton") as Button;
+        _buttonOk = _document.rootVisualElement.Q("OkButton") as Button;
+        _buttonExplain = _document.rootVisualElement.Q("ExplainButton") as Button;
         _mainDialogue = _document.rootVisualElement.Q("MainDialogue") as Label;
         
-        if (_okButton != null) 
-            _okButton.RegisterCallback<ClickEvent>(OnOkClick);
-        if (_explainButton != null)
-            _explainButton.RegisterCallback<ClickEvent>(OnExplainClick);
+        if (_buttonOk != null) 
+            _buttonOk.RegisterCallback<ClickEvent>(OnOkClick);
+        if (_buttonExplain != null)
+            _buttonExplain.RegisterCallback<ClickEvent>(OnExplainClick);
     }
 
     private void UnregisterEventListeners() {
-        if (_okButton != null)
-            _okButton.UnregisterCallback<ClickEvent>(OnOkClick);
-        if (_explainButton != null)
-            _explainButton.UnregisterCallback<ClickEvent>(OnExplainClick);
+        if (_buttonOk != null)
+            _buttonOk.UnregisterCallback<ClickEvent>(OnOkClick);
+        if (_buttonExplain != null)
+            _buttonExplain.UnregisterCallback<ClickEvent>(OnExplainClick);
     }
 
     private void OnOkClick(ClickEvent evt) {
@@ -60,16 +60,16 @@ public class DialogueEvents : MonoBehaviour
 
     private void OnExplainClick(ClickEvent evt) {
         Debug.Log("Explain pressed");
-        if (_explainButton.text == "Go back") {
-            SetClientDialogue(order);
-            _explainButton.text = "Explain";
+        if (_buttonExplain.text == "Go back") {
+            setClientDialogue(order);
+            _buttonExplain.text = "Explain";
         } else {
-            SetClientDialogue(explanation);
-            _explainButton.text = "Go back";
+            setClientDialogue(explanation);
+            _buttonExplain.text = "Go back";
         }
     }
 
-    public void SetClientDialogue(string dialogue)
+    public void setClientDialogue(string dialogue)
     {
         if (_mainDialogue != null)
         {
@@ -77,10 +77,10 @@ public class DialogueEvents : MonoBehaviour
         }
     }
 
-    public void SetClientOrder(string order)
+    public void setClientOrder(string order)
     {
         this.order = order;
-        SetClientDialogue(order);
+        setClientDialogue(order);
     }
 
     public void setClientExplanation(string explanation)

@@ -35,7 +35,7 @@ public class ClientHandler : MonoBehaviour, IInteractable
         }
 
         clientDialogue.gameObject.SetActive(!clientDialogue.gameObject.activeSelf);
-        dialogueEvents.SetClientOrder(dayQueue.queue[currentClient].order);
+        dialogueEvents.setClientOrder(dayQueue.queue[currentClient].order);
         dialogueEvents.setClientExplanation(dayQueue.queue[currentClient].explanation);
         return true;
     }
@@ -54,12 +54,14 @@ public class ClientHandler : MonoBehaviour, IInteractable
         }
     }
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = dayQueue.queue[currentClient].sprite;
     }
 
+    // Update is called once per frame
     void Update()
     {
         
