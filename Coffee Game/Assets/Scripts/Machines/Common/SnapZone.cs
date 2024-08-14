@@ -43,11 +43,11 @@ public abstract class SnapZone: MonoBehaviour, IInteractable
     {
     }
 
-    public void ExitHover()
+    public void ExitHover(Hand hand)
     {
     }
 
-    public void EndInteraction()
+    public void EndInteraction(Hand hand)
     {
     }
     

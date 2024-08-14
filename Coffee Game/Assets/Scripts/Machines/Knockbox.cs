@@ -14,7 +14,7 @@ public class Knockbox : MonoBehaviour, IInteractable
         return false;
     }
 
-    public void EndInteraction()
+    public void EndInteraction(Hand hand)
     {
     }
 
@@ -22,7 +22,7 @@ public class Knockbox : MonoBehaviour, IInteractable
     {
     }
 
-    public void ExitHover()
+    public void ExitHover(Hand hand)
     {
     }
 }

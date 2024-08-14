@@ -7,6 +7,7 @@ public class Hand : MonoBehaviour
     private GameObject currentRayCastedObject = null;
     private IInteractable currentInteractable = null;
 
+
     [SerializeField] LayerMask handRaycastLayerMask;
 
     public void OnLeftClick(InputAction.CallbackContext ctx)
@@ -14,7 +15,7 @@ public class Hand : MonoBehaviour
         if (ctx.phase == InputActionPhase.Canceled)
         {
             if (currentInteractable is null) return;
-            currentInteractable.EndInteraction();
+            currentInteractable.EndInteraction(this);
             return;
         }
 
@@ -34,21 +35,21 @@ public class Hand : MonoBehaviour
         Vector2 v = ctx.ReadValue<Vector2>();
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(v.x, v.y, 0.5f));
         transform.position = new Vector3(pos.x, pos.y, transform.position.z);
-        
+
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.zero, Mathf.Infinity, handRaycastLayerMask);
         if (hit.collider is null)
         {
             if (currentInteractable is not null)
             {
-                currentInteractable.EndInteraction();
-                currentInteractable.ExitHover();
+                currentInteractable.EndInteraction(this);
+                currentInteractable.ExitHover(this);
             }
             currentInteractable = null;
             currentRayCastedObject = null;
             return;
         }
         //Debug.Log($"RAYCAST HIT: {hit.transform.name}");
-        
+
         // the interactable can be a child or a parent of the current collider
         IInteractable interactable;
         interactable = hit.transform.GetComponentInChildren<IInteractable>();
@@ -62,20 +63,22 @@ public class Hand : MonoBehaviour
             {
                 interactable.HoverEnter(this);
             }
-        } else {
-            currentInteractable.EndInteraction();
-            currentInteractable.ExitHover();
+        }
+        else
+        {
+            currentInteractable.EndInteraction(this);
+            currentInteractable.ExitHover(this);
             currentInteractable = null;
         }
 
         currentRayCastedObject = hit.transform.gameObject;
     }
-    
+
     private void ClickEmptyHand()
     {
         if (currentInteractable is not null)
         {
-            currentInteractable.ExitHover();
+            currentInteractable.ExitHover(this);
             currentInteractable.Interact(this);
         }
     }
@@ -92,7 +95,7 @@ public class Hand : MonoBehaviour
         {
             currentInteractable.Interact(this);
         }
-        
+
     }
 
     /// <summary>

@@ -10,7 +10,7 @@ public interface IInteractable
     /// <summary>
     /// Function called on de-press of a left mouse button, useful mostly for hold buttons.
     /// </summary>
-    public void EndInteraction();
+    public void EndInteraction(Hand hand);
     
     /// <summary>
     /// Function called when a hand hovers over an IInteractable object.
@@ -21,5 +21,5 @@ public interface IInteractable
     /// <summary>
     /// Function called when a hand exits hover area of an IInteractable object.
     /// </summary>
-    public void ExitHover();
+    public void ExitHover(Hand hand);
 }

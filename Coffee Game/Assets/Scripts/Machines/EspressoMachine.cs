@@ -51,26 +51,32 @@ public class EspressoMachine : MonoBehaviour
             cup.AddLiquid(coffee);
         }
     }
-    
-    public void SetPortafilter(Portafilter p, int id) {
+
+    public void SetPortafilter(Portafilter p, int id)
+    {
         portafilters[id] = p;
     }
 
-    public void SetCup(Pickable c, int id) {
-        if (c is Cup cup) {
+    public void SetCup(Pickable c, int id)
+    {
+        if (c is Cup cup)
+        {
             cup.ToggleMeterVisibility(true);
             cups[id] = cup;
         }
     }
 
-    public void UnsetPickable(Pickable p, int id) {
-        if (p is Portafilter portafilter) {
+    public void UnsetPickable(Pickable p, int id)
+    {
+        if (p is Portafilter portafilter)
+        {
             portafilter.ToggleMeterVisibility(false);
             portafilters[id] = null;
             return;
         }
 
-        if (p is Cup c) {
+        if (p is Cup c)
+        {
             c.ToggleMeterVisibility(false);
             cups[id] = null;
         }
@@ -84,7 +90,7 @@ public class EspressoMachine : MonoBehaviour
             StartPouring(id, portafilters[id], cups[id]);
         }
     }
-    
+
     public void OnButtonUp(int id)
     {
         if (portafilters[id] is not null &&

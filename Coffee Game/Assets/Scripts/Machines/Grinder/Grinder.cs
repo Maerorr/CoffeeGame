@@ -9,7 +9,7 @@ public class Grinder : MonoBehaviour
 
     [SerializeField] float grindSpeed = 3f;
     private Coroutine grindCoroutine;
-    
+
     private void Start()
     {
         pSnap = GetComponentInChildren<PortafilterSnapZone>();
@@ -23,26 +23,31 @@ public class Grinder : MonoBehaviour
         _portafilter.ToggleMeterVisibility(true);
     }
 
-    private void PickableUnsnapped(Pickable pick, int _) {
-        if (pick is Portafilter p) {
+    private void PickableUnsnapped(Pickable pick, int _)
+    {
+        if (pick is Portafilter p)
+        {
             p.ToggleMeterVisibility(false);
         }
     }
 
     public IEnumerator Grind()
     {
-        while (true) {
+        while (true)
+        {
             yield return new WaitForSeconds(0.033f);
             _portafilter.AddCoffee(grindSpeed * 0.033f);
         }
     }
 
-    public void StartGrinding() {
+    public void StartGrinding()
+    {
         if (_portafilter is null) return;
         grindCoroutine = StartCoroutine(Grind());
     }
 
-    public void StopGrinding() {
+    public void StopGrinding()
+    {
         if (grindCoroutine is not null) StopCoroutine(grindCoroutine);
     }
 }

@@ -25,7 +25,7 @@ public class MachineButton : MonoBehaviour, IInteractable
         return true;
     }
 
-    public void EndInteraction()
+    public void EndInteraction(Hand hand)
     {
         spriteRenderer.color = initialColor;
         onRelease.Invoke();
@@ -36,7 +36,7 @@ public class MachineButton : MonoBehaviour, IInteractable
         spriteRenderer.color = initialColor * hoverHighlightAmount;
     }
 
-    public void ExitHover()
+    public void ExitHover(Hand hand)
     {
         spriteRenderer.color = initialColor;
     }

@@ -64,7 +64,7 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
     
     public abstract void HoverEnter(Hand hand);
 
-    public abstract void ExitHover();
+    public abstract void ExitHover(Hand hand);
 
     
     protected void Highlight() {
@@ -78,7 +78,7 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         colTween.id = colorTweenId;
     }
     
-    public void EndInteraction()
+    public void EndInteraction(Hand hand)
     {
         
     }

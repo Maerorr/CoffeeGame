@@ -11,12 +11,12 @@ public class ClientHandler : MonoBehaviour, IInteractable
     public UIDocument clientDialogue;
     public DialogueEvents dialogueEvents;
 
-    public void EndInteraction()
+    public void EndInteraction(Hand hand)
     {
         Debug.Log("interaction finished");
     }
 
-    public void ExitHover()
+    public void ExitHover(Hand hand)
     {
         Debug.Log("stopped hovering client");
     }

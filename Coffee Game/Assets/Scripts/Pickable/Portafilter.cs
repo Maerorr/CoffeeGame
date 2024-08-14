@@ -59,7 +59,7 @@ public class Portafilter : Pickable
         if (snapZone is null) meter.SetVisible(true);
     }
 
-    public override void ExitHover()
+    public override void ExitHover(Hand hand)
     {
         EndHighlight();
         // if the filter is snapped to a machine dont hide the bar
