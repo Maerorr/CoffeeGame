@@ -8,14 +8,21 @@ public class Utils
     private const string uiTag = "UI";
     public static bool IsAnyUIElementWithTagActive()
     {
-        GameObject[] uiBlockers = GameObject.FindGameObjectsWithTag(uiTag);
-        foreach (GameObject uiBlocker in uiBlockers)
+        if (EventSystem.current.IsPointerOverGameObject())
         {
-            if (uiBlocker.activeInHierarchy)
+            var obj = EventSystem.current.currentSelectedGameObject;
+            if (obj is not null)
             {
                 return true;
             }
         }
+
         return false;
+    }
+
+    public static void SelectFistUIObject()
+    {
+        GameObject[] uiBlockers = GameObject.FindGameObjectsWithTag(uiTag);
+        EventSystem.current.SetSelectedGameObject(uiBlockers[0]);
     }
 }
