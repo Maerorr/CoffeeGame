@@ -13,20 +13,21 @@ public class Portafilter : Pickable
     private new void Start()
     {
         base.Start();
-        
+
         coffeeGrounds.SetActive(false);
         liquid.SetActive(false);
         meter = GetComponentInChildren<MultiColorMeter>();
         meter.SetRuler(0.5f, 2);
         meter.SetVisible(false);
-        
+
     }
-    
+
     public void AddCoffee(float c)
     {
-        if (coffeeAmount + c > capacity) return;
-        coffeeGrounds.SetActive(true);
         coffeeAmount += c;
+        coffeeAmount = Mathf.Clamp(coffeeAmount, 0f, capacity);
+
+        coffeeGrounds.SetActive(coffeeAmount > 0f);
         meter.SetContent("grounds", coffeeAmount / capacity, Colors.Get("espresso"));
     }
 
@@ -34,7 +35,7 @@ public class Portafilter : Pickable
     {
         liquid.SetActive(show);
     }
-    
+
     public void UseCoffee()
     {
         used = true;
@@ -48,7 +49,8 @@ public class Portafilter : Pickable
         meter.SetContent("grounds", 0f, Colors.Get("espresso"));
     }
 
-    public void ToggleMeterVisibility(bool visible) {
+    public void ToggleMeterVisibility(bool visible)
+    {
         meter.SetVisible(visible);
     }
 

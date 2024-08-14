@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -5,10 +7,17 @@ public class BeanDropZone : MonoBehaviour, IInteractable
 {
     Grinder grinder;
 
+    [SerializeField] private float beansPerSecond = 2f;
+
+    private Coroutine beanPour;
+
+    private void Start()
+    {
+        grinder = GetComponentInParent<Grinder>();
+    }
 
     public bool Interact(Hand hand)
     {
-
         return true;
     }
 
@@ -24,11 +33,24 @@ public class BeanDropZone : MonoBehaviour, IInteractable
 
     }
 
+    private IEnumerator PourBeansToGrinder()
+    {
+        while (true)
+        {
+            grinder.AddBeans(beansPerSecond * Time.deltaTime);
+            yield return new WaitForNextFrameUnit();
+        }
+    }
+
     public void ExitHover(Hand hand)
     {
         if (hand.GetPickableInHand() is CoffeeBag bag)
         {
             bag.StopPouringBeans();
+            if (beanPour is not null)
+            {
+                StopCoroutine(beanPour);
+            }
         }
     }
 
@@ -37,6 +59,11 @@ public class BeanDropZone : MonoBehaviour, IInteractable
         if (hand.GetPickableInHand() is CoffeeBag bag)
         {
             bag.StartPouringBeans();
+            if (beanPour is not null)
+            {
+                StopCoroutine(beanPour);
+            }
+            beanPour = StartCoroutine(PourBeansToGrinder());
         }
     }
 }

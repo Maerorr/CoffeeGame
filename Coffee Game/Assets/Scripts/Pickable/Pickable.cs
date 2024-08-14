@@ -12,8 +12,10 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
     public Collider2D collider;
     private Color initialColor;
     private float initialZ;
+
+    private bool locked = false;
     
-    private Guid colorTweenId = System.Guid.NewGuid();
+    private Guid colorTweenId = Guid.NewGuid();
 
     protected void Start()
     {
@@ -66,7 +68,6 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
 
     public abstract void ExitHover(Hand hand);
 
-    
     protected void Highlight() {
         var colTween = _mainSprite.DOColor(initialColor * 1.05f, 0.1f);
         colTween.id = colorTweenId;
@@ -97,5 +98,13 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
     public void SetSnapZone(SnapZone sz)
     {
         snapZone = sz;
+    }
+
+    public void Lock() {
+        locked = true;
+    }
+
+    public void Unlock() {
+        locked = false;
     }
 }

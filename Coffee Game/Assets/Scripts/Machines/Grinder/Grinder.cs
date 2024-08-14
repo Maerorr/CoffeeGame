@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Data.Common;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Grinder : MonoBehaviour
@@ -9,6 +11,12 @@ public class Grinder : MonoBehaviour
 
     [SerializeField] float grindSpeed = 3f;
     private Coroutine grindCoroutine;
+
+    private float currentBeansAmount = 0f;
+    [SerializeField] private float maxBeansAmount = 30f;
+    [SerializeField] private MultiColorMeter beansMeter;
+
+    private bool isGrinding = false;
 
     private void Start()
     {
@@ -28,19 +36,40 @@ public class Grinder : MonoBehaviour
         if (pick is Portafilter p)
         {
             p.ToggleMeterVisibility(false);
+            _portafilter = null;
         }
     }
 
     public IEnumerator Grind()
     {
-        while (true)
+        isGrinding = true;
+        float beanVal = 0f;
+        while (currentBeansAmount > 0f)
         {
-            yield return new WaitForSeconds(0.033f);
-            _portafilter.AddCoffee(grindSpeed * 0.033f);
+            if (_portafilter is null) {
+                StopGrinding();
+                break;
+            }
+            beanVal = grindSpeed * Time.deltaTime;
+            _portafilter.AddCoffee(beanVal);
+            AddBeans(-beanVal);
+            yield return new WaitForNextFrameUnit();
         }
     }
 
-    public void StartGrinding()
+    public void GrindButton()
+    {
+        if (!isGrinding)
+        {
+            StartGrinding();
+        }
+        else
+        {
+            StopGrinding();
+        }
+    }
+
+    private void StartGrinding()
     {
         if (_portafilter is null) return;
         grindCoroutine = StartCoroutine(Grind());
@@ -49,5 +78,13 @@ public class Grinder : MonoBehaviour
     public void StopGrinding()
     {
         if (grindCoroutine is not null) StopCoroutine(grindCoroutine);
+        isGrinding = false;
+    }
+
+    public void AddBeans(float beans)
+    {
+        currentBeansAmount += beans;
+        currentBeansAmount = Mathf.Clamp(currentBeansAmount, 0f, maxBeansAmount);
+        beansMeter.SetContent("beans", currentBeansAmount / maxBeansAmount, Colors.Get("espresso"));
     }
 }

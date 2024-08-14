@@ -10,11 +10,15 @@ public static class Colors
         {"water", new Color(0.49f, 0.788f, 0.902f)}
     };
 
-    static public Color Get(string name) {
+    static public Color Get(string name)
+    {
         string low = name.ToLower();
-        if (colors.ContainsKey(low)) {
+        if (colors.ContainsKey(low))
+        {
             return colors[low];
-        } else {
+        }
+        else
+        {
             return Color.white;
         }
     }
