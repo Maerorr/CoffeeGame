@@ -4,16 +4,15 @@ using UnityEngine;
 public class Cup : Pickable
 {
     [SerializeField] private float capacity = 150f;
-    private float liquidAmount = 0;
 
-    private List<Liquid> liquids = new List<Liquid>();
+    private LiquidHolder liquidHolder = new LiquidHolder();
 
     MultiColorMeter meter;
 
     private new void Start()
     {
         base.Start();
-
+        liquidHolder.Capacity = capacity;
         meter = GetComponentInChildren<MultiColorMeter>();
         meter.SetVisible(false);
     }
@@ -21,23 +20,13 @@ public class Cup : Pickable
 
     public void AddLiquid(Liquid liquid)
     {
-        // liquidAmount += amount;
-        // meter.SetContent("espresso", liquidAmount / capacity, Colors.Get("espresso"));
-        int idx = liquids.FindIndex(el => el.name == liquid.name);
-        Debug.Log($"Adding {liquid.amount} of liquid");
-        if (idx == -1)
-        {
-            liquids.Add(new Liquid(liquid.liquidType));
-            UpdateMeter();
-            return;
-        }
-        liquids[idx].Add(liquid.amount);
+        liquidHolder.AddLiquid(liquid);
         UpdateMeter();
     }
 
     private void UpdateMeter()
     {
-        foreach (Liquid l in liquids)
+        foreach (Liquid l in liquidHolder.liquids)
         {
             meter.SetContent(l.name, l.amount / capacity, l.color);
         }

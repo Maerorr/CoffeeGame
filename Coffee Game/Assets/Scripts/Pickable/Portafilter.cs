@@ -3,7 +3,8 @@ using UnityEngine;
 public class Portafilter : Pickable
 {
     [SerializeField] private float capacity = 30f;
-    [SerializeField] private float coffeeAmount = 0f;
+    [SerializeField] private float coffeeAmount;
+
     private bool used = false;
     public GameObject coffeeGrounds;
     public GameObject liquid;
@@ -19,7 +20,6 @@ public class Portafilter : Pickable
         meter = GetComponentInChildren<MultiColorMeter>();
         meter.SetRuler(0.5f, 2);
         meter.SetVisible(false);
-
     }
 
     public void AddCoffee(float c)
@@ -36,7 +36,7 @@ public class Portafilter : Pickable
         liquid.SetActive(show);
     }
 
-    public void UseCoffee()
+    public void SetUsed()
     {
         used = true;
     }
@@ -66,5 +66,9 @@ public class Portafilter : Pickable
         EndHighlight();
         // if the filter is snapped to a machine dont hide the bar
         if (snapZone is null) meter.SetVisible(false);
+    }
+
+    public float groundsAmountInFilter() {
+        return coffeeAmount;
     }
 }

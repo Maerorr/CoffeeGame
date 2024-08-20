@@ -6,6 +6,7 @@ using UnityEngine;
 public class MultiColorMeter : MonoBehaviour
 {
     [SerializeField] Transform barRoot;
+    [SerializeField] Transform rulerRoot;
     [SerializeField] GameObject bg;
     private Vector2 rootSize;
     [SerializeField] GameObject barPrefab;
@@ -14,22 +15,26 @@ public class MultiColorMeter : MonoBehaviour
     private List<GameObject> spawnedBars = new List<GameObject>();
     private List<GameObject> ruler = new List<GameObject>();
 
-    private void Start() {
-        rootSize = (Vector2) barRoot.localScale;
+    private void Start()
+    {
+        rootSize = (Vector2)barRoot.localScale;
     }
 
     // This method searches for existing color in static Colors class, if the color cannot be found by name, white is returned
-    public void AddContent(string id, float val) {
+    public void AddContent(string id, float val)
+    {
         Color c = Colors.Get(id);
         AddContent(id, val, c);
     }
 
-    public void SetContent(string id, float val, Color col) {
+    public void SetContent(string id, float val, Color col)
+    {
         if (val > 1f) return;
 
         int idx = contents.FindIndex(item => item.name == id);
         // -1 means it doesnt yet exist, so add it
-        if (idx == -1) {
+        if (idx == -1)
+        {
             contents.Add(new ColorBarData(id, val, col));
             UpdateBars();
             return;
@@ -41,13 +46,15 @@ public class MultiColorMeter : MonoBehaviour
         UpdateBars();
     }
 
-    private void AddContent(string id, float val, Color col) {
+    private void AddContent(string id, float val, Color col)
+    {
         if (val > 1f) return;
         if (contents.Sum(d => d.val) + val > 1f) return;
 
         int idx = contents.FindIndex(item => item.name == id);
         // -1 means it doesnt yet exist, so add it
-        if (idx == -1) {
+        if (idx == -1)
+        {
             contents.Add(new ColorBarData(id, val, col));
             UpdateBars();
             return;
@@ -59,62 +66,75 @@ public class MultiColorMeter : MonoBehaviour
         UpdateBars();
     }
 
-    private void UpdateBars() {
-        foreach(var b in spawnedBars) {
+    private void UpdateBars()
+    {
+        foreach (var b in spawnedBars)
+        {
             Destroy(b);
         }
         spawnedBars.Clear();
         float currentBottom = -rootSize.y / 2f;
-        foreach(var c in contents) {
+        foreach (var c in contents)
+        {
             var bar = Instantiate(barPrefab, barRoot);
             bar.GetComponentInChildren<SpriteRenderer>().color = c.color;
             bar.transform.localScale = new Vector3(1f, c.val, 1f);
-            Vector3 pos = new Vector3(0f, currentBottom + c.val / 2f ,-0.01f);
+            Vector3 pos = new Vector3(0f, currentBottom + c.val / 2f, -0.01f);
             bar.transform.localPosition = pos;
             spawnedBars.Add(bar);
             currentBottom = pos.y + c.val / 2f;
         }
     }
 
-    public void SetRuler(float bigDistance, int subMeasures) {
-        foreach(var r in ruler) {
+    public void SetRuler(float bigDistance, int subMeasures)
+    {
+        foreach (var r in ruler)
+        {
             Destroy(r);
         }
         float smallDistance = bigDistance / (subMeasures + 1);
         float currentY = -rootSize.y / 2f + smallDistance;
         int counter = 0;
-        while (currentY < rootSize.y / 2f) {
-            var bar = Instantiate(barPrefab, barRoot);
+        while (currentY < rootSize.y / 2f)
+        {
+            var bar = Instantiate(barPrefab, rulerRoot);
             bar.GetComponentInChildren<SpriteRenderer>().color = Color.black;
             float xSize = 0.25f;
-            if (counter == subMeasures) {
+            if (counter == subMeasures)
+            {
                 xSize = 0.45f;
                 counter = 0;
-            } else {
-                counter ++;
             }
-            
+            else
+            {
+                counter++;
+            }
+
             bar.transform.localScale = new Vector3(xSize, 0.015f, 1f);
-            Vector3 pos = new Vector3(0.5f - xSize / 2f, currentY , -0.02f);
+            Vector3 pos = new Vector3(0.5f - xSize / 2f, currentY, -0.02f);
             bar.transform.localPosition = pos;
             currentY += smallDistance;
             ruler.Add(bar);
         }
     }
 
-    public void SetVisible(bool visible) {
+    public void SetVisible(bool visible)
+    {
         barRoot.gameObject.SetActive(visible);
+        rulerRoot.gameObject.SetActive(visible);
         bg.SetActive(visible);
         spawnedBars.ForEach(b => b.SetActive(visible));
     }
 }
 
-public struct ColorBarData {
+public struct ColorBarData
+{
     public string name;
     public float val;
     public Color color;
 
-    public ColorBarData(string name, float val, Color col) {
+    public ColorBarData(string name, float val, Color col)
+    {
         this.name = name;
         this.val = val;
         this.color = col;

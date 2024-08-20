@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Liquid
 {
-    LiquidType _liquidType;
+    protected LiquidType _liquidType;
 
     public LiquidType liquidType {
         get => _liquidType;
@@ -13,7 +13,7 @@ public class Liquid
         get => _liquidType.ToString();
     }
 
-    float _amount;
+    protected float _amount;
 
     public float amount {
         get => _amount;
@@ -35,6 +35,14 @@ public class Liquid
     public void Add(float v) {
         _amount += v;
         _amount = Mathf.Clamp(_amount, 0f, float.MaxValue);
+    }
+
+    /// <summary>
+    /// Calculates the liquid's quality. e.g. Espresso can have varying quality scores depending on amount of coffee/water used to create a single shot.
+    /// </summary>
+    /// <returns>float value representing a liquid's score from 0 (bad) to 1 (great). Defaults to 1f for liquids that don't have quality (e.g. water)</returns>
+    public virtual float GetQuality() {
+        return 1f;
     }
 }
 
@@ -71,10 +79,11 @@ public static class LiquidTypeExtensions
     public static Color ToColor(this LiquidType liquidType) =>
         liquidType switch
         {
-            LiquidType.Espresso => Colors.Get(liquidType.ToStringNoWhitespaces()), // Dark brown color for espresso
-            LiquidType.Milk     => Colors.Get(liquidType.ToStringNoWhitespaces()),           // White color for milk
-            LiquidType.MilkFoam => Colors.Get(liquidType.ToStringNoWhitespaces()),// Off-white color for milk foam
-            LiquidType.Water    => Colors.Get(liquidType.ToStringNoWhitespaces()),      // Light blue color for water
+            LiquidType.Espresso => Colors.Get(liquidType.ToStringNoWhitespaces()),
+            LiquidType.Milk     => Colors.Get(liquidType.ToStringNoWhitespaces()),
+            LiquidType.MilkFoam => Colors.Get(liquidType.ToStringNoWhitespaces()),
+            LiquidType.Water    => Colors.Get(liquidType.ToStringNoWhitespaces()),
             _ => throw new ArgumentOutOfRangeException(nameof(liquidType), liquidType, null)
         };
 }
+
