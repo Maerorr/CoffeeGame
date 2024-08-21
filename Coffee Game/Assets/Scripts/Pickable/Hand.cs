@@ -7,26 +7,121 @@ public class Hand : MonoBehaviour
     private GameObject currentRayCastedObject = null;
     private IInteractable currentInteractable = null;
 
+    [SerializeField] private bool clickToGrab = false;
 
+    private IInteractable interactableOnClick = null;
     [SerializeField] LayerMask handRaycastLayerMask;
 
     public void OnLeftClick(InputAction.CallbackContext ctx)
     {
-        if (ctx.phase == InputActionPhase.Canceled)
+        if (clickToGrab)
         {
-            if (currentInteractable is null) return;
-            currentInteractable.EndInteraction(this);
+            if (ctx.phase == InputActionPhase.Canceled)
+            {
+                if (currentInteractable is null) return;
+                currentInteractable.EndInteraction(this);
+                return;
+            }
+
+            if (ctx.phase != InputActionPhase.Performed) return;
+            if (_handPickable is not null)
+            {
+                ClickHeldItem();
+            }
+            else
+            {
+                ClickEmptyHand();
+            }
+
+            return;
+        }
+        // else
+
+        switch (ctx.phase)
+        {
+            case InputActionPhase.Started:
+                break;
+
+            // KEY FULLY PRESSED
+            case InputActionPhase.Performed:
+                if (_handPickable == null)
+                {
+                    ClickNoItem();
+                }
+                else
+                {
+                    ClickWithItem();
+                }
+                break;
+
+            // KEY LIFTED UP
+            case InputActionPhase.Canceled:
+                if (_handPickable == null)
+                {
+                    DeclickNoItem();
+                }
+                else
+                {
+                    DeclickWithItem();
+                }
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void ClickWithItem()
+    {
+        if (currentInteractable is null)
+        {
+            // if we're pointing into nothing, then click can drop the thing
+            _handPickable.Drop();
+            _handPickable = null;
+        }
+        else // if we're pointing at something that might want to interact with whatever we're carrying, let it interact
+        {
+            currentInteractable.Interact(this);
+        }
+    }
+
+    private void DeclickWithItem()
+    {
+        if (currentInteractable is null)
+        {
+            // if we're pointing into nothing, then click can drop the thing
+            _handPickable.Drop();
+            _handPickable = null;
             return;
         }
 
-        if (ctx.phase != InputActionPhase.Performed) return;
-        if (_handPickable is not null)
+        if (currentInteractable != interactableOnClick)
         {
-            ClickHeldItem();
+            currentInteractable.Interact(this);
         }
-        else
+    }
+
+    private void ClickNoItem()
+    {
+        interactableOnClick = currentInteractable;
+        if (currentInteractable is not null)
         {
-            ClickEmptyHand();
+            currentInteractable.ExitHover(this);
+            currentInteractable.Interact(this);
+            if (_handPickable is not null)
+            {
+                currentInteractable = null;
+            }
+        }
+    }
+
+    private void DeclickNoItem()
+    {
+        if (currentInteractable == interactableOnClick
+            && currentInteractable is not null)
+        {
+            currentInteractable.EndInteraction(this);
         }
     }
 
