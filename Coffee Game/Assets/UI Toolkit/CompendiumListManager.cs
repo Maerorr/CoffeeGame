@@ -25,13 +25,18 @@ public class CompendiumListManager : MonoBehaviour
 
     private Button _closeButton;
     private ScrollView _scrollView;
+    public ScrollView _itemDetails;
+
+    private ScrollView _toppingListLeft;
+    private ScrollView _toppingListRight;
     public VisualElement _leftPane;
     public VisualElement _rightPane;
-    public VisualElement _itemDetails;
     public StyleSheet _styleSheet;
 
 
     public RecipeItemSO[] recipeItems;
+
+    public ToppingSO[] toppings;
 
     private void RegisterEventListeners()
     {
@@ -46,9 +51,14 @@ public class CompendiumListManager : MonoBehaviour
         _closeButton = _document.rootVisualElement.Q("CloseButton") as Button;
         _nextPageButton = _document.rootVisualElement.Q("NextPageButton") as Button;
         _previousPageButton = _document.rootVisualElement.Q("PreviousPageButton") as Button;
+        _toppingListLeft = _document.rootVisualElement.Q("ToppingListLeft") as ScrollView;
+        _toppingListRight = _document.rootVisualElement.Q("ToppingListRight") as ScrollView;
 
         if (_recipeButton != null)
-            _recipeButton.RegisterCallback<ClickEvent>(ToggleRecipeList);
+            _recipeButton.RegisterCallback<ClickEvent>(evt => ToggleList(evt, "recipe"));
+
+        if (_toppingButton != null)
+            _toppingButton.RegisterCallback<ClickEvent>(evt => ToggleList(evt, "topping"));
 
         if (_closeButton != null)
         {
@@ -64,15 +74,21 @@ public class CompendiumListManager : MonoBehaviour
         }
     }
 
-    private void ToggleRecipeList(ClickEvent evt)
+    private void ToggleList(ClickEvent evt, string list)
     {
-        if (_scrollView.visible == true)
+        if (list == "topping")
         {
-            _scrollView.visible = false;
+            _scrollView.style.display = DisplayStyle.None;
+            _itemDetails.style.display = DisplayStyle.None;
+            _toppingListLeft.style.display = DisplayStyle.Flex;
+            _toppingListRight.style.display = DisplayStyle.Flex;
         }
-        else
+        else if (list == "recipe")
         {
-            _scrollView.visible = true;
+            _toppingListLeft.style.display = DisplayStyle.None;
+            _toppingListRight.style.display = DisplayStyle.None;
+            _scrollView.style.display = DisplayStyle.Flex;
+            _itemDetails.style.display = DisplayStyle.Flex;
         }
 
     }
@@ -142,6 +158,59 @@ public class CompendiumListManager : MonoBehaviour
         }
     }
 
+    private void BuildToppingList(int page)
+    {
+        _toppingListLeft.Clear();
+        _toppingListRight.Clear();
+        _toppingListLeft.AddToClassList("scroll-view");
+        _toppingListRight.AddToClassList("scroll-view");
+
+        int itemsPerPane = 4;
+
+        for (int i = 0; i < itemsPerPane; i++)
+        {
+            int itemIndex = page * itemsPerPane * 2 + i;
+            VisualElement leftItemContainer = CreateToppingItem(itemIndex);
+            VisualElement rightItemContainer = CreateToppingItem(itemIndex + itemsPerPane);
+
+            _toppingListLeft.Add(leftItemContainer);
+            _toppingListRight.Add(rightItemContainer);
+        }
+    }
+
+    private VisualElement CreateToppingItem(int itemIndex)
+    {
+        var itemContainer = new VisualElement();
+        itemContainer.AddToClassList("item-container-horizontal");
+
+        if (itemIndex < toppings.Length)
+        {
+            var itemImage = new Image();
+            itemImage.AddToClassList("topping-image");
+            Sprite sprite = toppings[itemIndex].sprite;
+            if (sprite != null)
+            {
+                itemImage.image = sprite.texture;
+            }
+
+            var textContainer = new VisualElement();
+
+            var itemNameLabel = new Label(toppings[itemIndex].name);
+            itemNameLabel.AddToClassList("item-name");
+
+            var itemDescriptionLabel = new Label(toppings[itemIndex].description);
+            itemDescriptionLabel.AddToClassList("item-description");
+
+            textContainer.Add(itemNameLabel);
+            textContainer.Add(itemDescriptionLabel);
+
+            itemContainer.Add(itemImage);
+            itemContainer.Add(textContainer);
+        }
+
+        return itemContainer;
+    }
+
     private void ShowItemDetails(int itemIndex)
     {
         _itemDetails.Clear();
@@ -189,6 +258,7 @@ public class CompendiumListManager : MonoBehaviour
     void Start()
     {
         BuildRecipeList(currentPage);
+        BuildToppingList(currentPage);
     }
 
 }
