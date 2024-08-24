@@ -47,8 +47,8 @@ public class MilkFoamer : MonoBehaviour
                 takenMilk = foamingSpeed * foamTimeScale;
             }
 
-            pitcher.liquidHolder.SubtractLiquid(new Milk(takenMilk));
-            pitcher.liquidHolder.AddLiquid(new MilkFoam(55f, takenMilk));
+            pitcher.liquidHolder.SubtractLiquid(new Liquid(LiquidType.Milk, takenMilk));
+            pitcher.liquidHolder.AddLiquid(new Liquid(LiquidType.MilkFoam, takenMilk));
             yield return new WaitForSeconds(foamTimeScale);
         }
     }

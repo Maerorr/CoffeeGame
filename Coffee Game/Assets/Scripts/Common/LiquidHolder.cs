@@ -33,6 +33,7 @@ public class LiquidHolder
     /// <param name="liquid"></param>
     public void AddLiquid(Liquid liquid)
     {
+        Debug.Log($"AddLiquid {liquid.liquidType}");
         float currentAndNew = GetTotalLiquidAmount() + liquid.amount;
         if (currentAndNew > capacity)
         {
@@ -65,7 +66,7 @@ public class LiquidHolder
     {
         int idx = liquids.FindIndex(el => el.name == name);
         if (idx == -1)
-        {   
+        {
             Debug.LogWarning($"liquid {name} not found returning NULL!");
             return null;
         };
@@ -91,5 +92,11 @@ public class LiquidHolder
         }
 
         return output;
+    }
+
+    public Liquid GetTopMostLiquid()
+    {
+        if (liquids.Count == 0) return null;
+        return liquids.Last();
     }
 }

@@ -15,6 +15,8 @@ public class Cup : Pickable
         liquidHolder.Capacity = capacity;
         meter = GetComponentInChildren<MultiColorMeter>();
         meter.SetVisible(false);
+        GetComponentInChildren<LiquidTransferZone>().SetLiquidHolder(ref liquidHolder);
+        liquidHolder.onLiquidsChange.AddListener(UpdateMeter);
     }
 
 

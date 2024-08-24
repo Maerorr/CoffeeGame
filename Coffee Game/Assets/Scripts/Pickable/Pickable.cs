@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler, IPointerExitHandler
 {
@@ -14,25 +15,42 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
     private float initialZ;
 
     private bool locked = false;
-    
+
     private Guid colorTweenId = Guid.NewGuid();
+
+    private int interactableLayer;
+    private int pickedLayer;
+
+    public UnityEvent onPickedUp;
+    public UnityEvent onDropped;
 
     protected void Start()
     {
+        interactableLayer = LayerMask.NameToLayer("Interactable");
+        pickedLayer = LayerMask.NameToLayer("HandPicked");
         initialColor = _mainSprite.color;
         initialZ = transform.position.z;
         rb = GetComponentInChildren<Rigidbody2D>();
-        collider = GetComponentInChildren<Collider2D>();
+        collider ??= GetComponentInChildren<Collider2D>();
     }
-    
+
     public void Drop()
     {
+        // transform.SetParent(null);
+        // Vector3 pos = transform.position;
+        // transform.position = new Vector3(pos.x, pos.y, initialZ);
+        // if (rb is not null) rb.bodyType = RigidbodyType2D.Dynamic;
+        // collider.enabled = true;
+        // gameObject.layer = pickedLayer;
+        // isPicked = false;
+        // onDropped.Invoke();
         transform.SetParent(null);
         Vector3 pos = transform.position;
         transform.position = new Vector3(pos.x, pos.y, initialZ);
         if (rb is not null) rb.bodyType = RigidbodyType2D.Dynamic;
-        collider.enabled = true;
+        gameObject.layer = interactableLayer;
         isPicked = false;
+        onDropped.Invoke();
     }
 
     public bool Interact(Hand hand)
@@ -40,48 +58,48 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         if (!hand.ComparePickable(this)) return false;
         if (isPicked)
         {
-            transform.SetParent(null);
-            Vector3 pos = transform.position;
-            transform.position = new Vector3(pos.x, pos.y, initialZ);
-            if (rb is not null) rb.bodyType = RigidbodyType2D.Dynamic;
-            collider.enabled = true;
-            isPicked = false;
+            Debug.Log("INTERACT -> isPicked TRUE");
             hand.SetPickable(null);
         }
         else
         {
+            Debug.Log("INTERACT -> isPicked FALSE");
             transform.SetParent(hand.transform, true);
             hand.SetPickable(this);
             transform.localPosition = new Vector3(0f, 0f, 0f);
             if (rb is not null) rb.bodyType = RigidbodyType2D.Kinematic;
-            collider.enabled = false;
-            
+            gameObject.layer = pickedLayer;
+            //collider.enabled = false;
+
             if (snapZone is not null) snapZone.Unsnap();
             snapZone = null;
-            
+
             isPicked = true;
+            onPickedUp.Invoke();
         }
         return true;
     }
-    
+
     public abstract void HoverEnter(Hand hand);
 
     public abstract void ExitHover(Hand hand);
 
-    protected void Highlight() {
+    protected void Highlight()
+    {
         var colTween = _mainSprite.DOColor(initialColor * 1.05f, 0.1f);
         colTween.id = colorTweenId;
     }
 
-    protected void EndHighlight() {
+    protected void EndHighlight()
+    {
         DOTween.Kill(colorTweenId);
         var colTween = _mainSprite.DOColor(initialColor, 0.1f);
         colTween.id = colorTweenId;
     }
-    
+
     public void EndInteraction(Hand hand)
     {
-        
+
     }
 
     public void SnapTo(Transform t)
@@ -89,7 +107,7 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         transform.SetParent(null);
         collider.enabled = true;
         isPicked = false;
-        
+
         Vector3 position = t.position;
         position.z = transform.position.z;
         transform.position = position;
@@ -100,11 +118,13 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         snapZone = sz;
     }
 
-    public void Lock() {
+    public void Lock()
+    {
         locked = true;
     }
 
-    public void Unlock() {
+    public void Unlock()
+    {
         locked = false;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EspressoMachine : MonoBehaviour
@@ -46,8 +47,9 @@ public class EspressoMachine : MonoBehaviour
         p.ToggleLiquid(true);
         while (true)
         {
-            yield return new WaitForSeconds(pourTimeFrame);
-            cup.AddLiquid(new Espresso(p.groundsAmountInFilter(), pourSpeed * pourTimeFrame));
+            yield return new WaitForNextFrameUnit();
+            //cup.AddLiquid(new Espresso(p.groundsAmountInFilter(), pourSpeed * pourTimeFrame));
+            cup.AddLiquid(new Liquid(LiquidType.Espresso, pourSpeed * Time.deltaTime));
         }
     }
 

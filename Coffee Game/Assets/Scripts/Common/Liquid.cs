@@ -5,34 +5,41 @@ public class Liquid
 {
     protected LiquidType _liquidType;
 
-    public LiquidType liquidType {
+    public LiquidType liquidType
+    {
         get => _liquidType;
     }
 
-    public string name {
+    public string name
+    {
         get => _liquidType.ToString();
     }
 
     protected float _amount;
 
-    public float amount {
+    public float amount
+    {
         get => _amount;
-        set {
+        set
+        {
             if (value <= 0f) _amount = 0f;
             _amount = value;
         }
     }
 
-    public Liquid(LiquidType lType, float val = 0f) {
+    public Liquid(LiquidType lType, float val = 0f)
+    {
         _liquidType = lType;
         amount = val;
     }
 
-    public Color color {
+    public Color color
+    {
         get => _liquidType.ToColor();
     }
 
-    public void Add(float v) {
+    public void Add(float v)
+    {
         _amount += v;
         _amount = Mathf.Clamp(_amount, 0f, float.MaxValue);
     }
@@ -41,12 +48,14 @@ public class Liquid
     /// Calculates the liquid's quality. e.g. Espresso can have varying quality scores depending on amount of coffee/water used to create a single shot.
     /// </summary>
     /// <returns>float value representing a liquid's score from 0 (bad) to 1 (great). Defaults to 1f for liquids that don't have quality (e.g. water)</returns>
-    public virtual float GetQuality() {
+    public virtual float GetQuality()
+    {
         return 1f;
     }
 }
 
-public enum LiquidType {
+public enum LiquidType
+{
     Espresso,
     Milk,
     MilkFoam,
@@ -80,9 +89,9 @@ public static class LiquidTypeExtensions
         liquidType switch
         {
             LiquidType.Espresso => Colors.Get(liquidType.ToStringNoWhitespaces()),
-            LiquidType.Milk     => Colors.Get(liquidType.ToStringNoWhitespaces()),
+            LiquidType.Milk => Colors.Get(liquidType.ToStringNoWhitespaces()),
             LiquidType.MilkFoam => Colors.Get(liquidType.ToStringNoWhitespaces()),
-            LiquidType.Water    => Colors.Get(liquidType.ToStringNoWhitespaces()),
+            LiquidType.Water => Colors.Get(liquidType.ToStringNoWhitespaces()),
             _ => throw new ArgumentOutOfRangeException(nameof(liquidType), liquidType, null)
         };
 }

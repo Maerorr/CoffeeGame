@@ -6231,6 +6231,7 @@ Transform:
   m_Children:
   - {fileID: 209515562}
   - {fileID: 1227244650}
+  - {fileID: 1906098246}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &427019292
@@ -6246,7 +6247,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainSprite: {fileID: 1227244651}
-  collider: {fileID: 0}
+  collider: {fileID: 427019294}
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropped:
+    m_PersistentCalls:
+      m_Calls: []
   capacity: 150
 --- !u!50 &427019293
 Rigidbody2D:
@@ -6381,6 +6388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24d0a0da3aa129a4e88f6b916c1a4daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickToGrab: 0
   handRaycastLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -6517,7 +6525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.58
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4236027783619722940, guid: f6dce8c2e068b404796b1eea194c9124, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6725,7 +6733,7 @@ GameObject:
   - component: {fileID: 584994661}
   - component: {fileID: 584994660}
   - component: {fileID: 584994662}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Counter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7321,6 +7329,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainSprite: {fileID: 642419035}
   collider: {fileID: 0}
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropped:
+    m_PersistentCalls:
+      m_Calls: []
   beansData: {fileID: 0}
   beansParticles: {fileID: 170176540}
 --- !u!1001 &768233115
@@ -9114,7 +9128,7 @@ Transform:
   m_GameObject: {fileID: 1460761617}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.304, y: -2.358, z: -0.48}
+  m_LocalPosition: {x: 7.48, y: -1.774, z: -0.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9183,7 +9197,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.55}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9209,6 +9223,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainSprite: {fileID: 1955546796}
   collider: {fileID: 1460761620}
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropped:
+    m_PersistentCalls:
+      m_Calls: []
   capacity: 150
 --- !u!210 &1460761622
 SortingGroup:
@@ -9389,6 +9409,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainSprite: {fileID: 1779880475}
   collider: {fileID: 0}
+  onPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropped:
+    m_PersistentCalls:
+      m_Calls: []
   capacity: 30
   coffeeAmount: 0
   coffeeGrounds: {fileID: 1838733333}
@@ -9673,7 +9699,7 @@ GameObject:
   - component: {fileID: 1772014508}
   - component: {fileID: 1772014507}
   - component: {fileID: 1772014506}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: beans drop zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10203,6 +10229,97 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1906098245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1906098246}
+  - component: {fileID: 1906098248}
+  - component: {fileID: 1906098247}
+  m_Layer: 9
+  m_Name: LiquidTransferZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1906098246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906098245}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 427019291}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1906098247
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906098245}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.18, y: 2.27}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.48, y: 2.77}
+  m_EdgeRadius: 0
+--- !u!114 &1906098248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906098245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c13a026d36a3c4ea01ca293ac81b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1923971270
 GameObject:
   m_ObjectHideFlags: 0
@@ -10363,7 +10480,7 @@ Transform:
   m_GameObject: {fileID: 1955546794}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.106, y: 0.599, z: 0.3085873}
+  m_LocalPosition: {x: 0.106, y: 0, z: 0.3085873}
   m_LocalScale: {x: 0.6728482, y: 0.6728482, z: 0.6728482}
   m_ConstrainProportionsScale: 0
   m_Children: []
