@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class Portafilter : Pickable
@@ -10,6 +11,8 @@ public class Portafilter : Pickable
     public GameObject liquid;
 
     MultiColorMeter meter;
+
+    int rotTweenID;
 
     private new void Start()
     {
@@ -68,7 +71,28 @@ public class Portafilter : Pickable
         if (snapZone is null) meter.SetVisible(false);
     }
 
-    public float groundsAmountInFilter() {
+    public float groundsAmountInFilter()
+    {
         return coffeeAmount;
+    }
+
+    public void StartThrowingOut()
+    {
+        DOTween.Kill(rotTweenID);
+        var tween = transform.DORotate(new Vector3(0f, 0f, -179f), 0.5f).SetId(this).OnComplete(
+            () =>
+            {
+                Clear();
+                StopThrowingOut();
+            }
+        );
+        rotTweenID = tween.intId;
+    }
+
+    public void StopThrowingOut()
+    {
+        DOTween.Kill(rotTweenID);
+        var tween = transform.DORotate(new Vector3(0f, 0f, 0f), 0.5f).SetId(this);
+        rotTweenID = tween.intId;
     }
 }

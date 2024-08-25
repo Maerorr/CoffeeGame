@@ -33,7 +33,6 @@ public class LiquidHolder
     /// <param name="liquid"></param>
     public void AddLiquid(Liquid liquid)
     {
-        Debug.Log($"AddLiquid {liquid.liquidType}");
         float currentAndNew = GetTotalLiquidAmount() + liquid.amount;
         if (currentAndNew > capacity)
         {
@@ -59,6 +58,10 @@ public class LiquidHolder
             return;
         }
         liquids[idx].amount -= liquid.amount;
+        if (liquids[idx].amount < 0.0001f)
+        {
+            liquids.Remove(liquids[idx]);
+        }
         onLiquidsChange.Invoke();
     }
 

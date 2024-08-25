@@ -24,7 +24,7 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
     public UnityEvent onPickedUp;
     public UnityEvent onDropped;
 
-    protected void Start()
+    protected virtual void Start()
     {
         interactableLayer = LayerMask.NameToLayer("Interactable");
         pickedLayer = LayerMask.NameToLayer("HandPicked");
@@ -36,14 +36,6 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
 
     public void Drop()
     {
-        // transform.SetParent(null);
-        // Vector3 pos = transform.position;
-        // transform.position = new Vector3(pos.x, pos.y, initialZ);
-        // if (rb is not null) rb.bodyType = RigidbodyType2D.Dynamic;
-        // collider.enabled = true;
-        // gameObject.layer = pickedLayer;
-        // isPicked = false;
-        // onDropped.Invoke();
         transform.SetParent(null);
         Vector3 pos = transform.position;
         transform.position = new Vector3(pos.x, pos.y, initialZ);
@@ -58,12 +50,10 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         if (!hand.ComparePickable(this)) return false;
         if (isPicked)
         {
-            Debug.Log("INTERACT -> isPicked TRUE");
             hand.SetPickable(null);
         }
         else
         {
-            Debug.Log("INTERACT -> isPicked FALSE");
             transform.SetParent(hand.transform, true);
             hand.SetPickable(this);
             transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -107,6 +97,7 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         transform.SetParent(null);
         collider.enabled = true;
         isPicked = false;
+        gameObject.layer = interactableLayer;
 
         Vector3 position = t.position;
         position.z = transform.position.z;

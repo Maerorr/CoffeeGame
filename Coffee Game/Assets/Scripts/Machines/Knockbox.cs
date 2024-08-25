@@ -5,13 +5,7 @@ public class Knockbox : MonoBehaviour, IInteractable
 
     public bool Interact(Hand hand)
     {
-        if (hand.GetPickableInHand() is Portafilter p)
-        {
-            p.Clear();
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     public void EndInteraction(Hand hand)
@@ -20,9 +14,17 @@ public class Knockbox : MonoBehaviour, IInteractable
 
     public void HoverEnter(Hand hand)
     {
+        if (hand.GetPickableInHand() is Portafilter p)
+        {
+            p.StartThrowingOut();
+        }
     }
 
     public void ExitHover(Hand hand)
     {
+        if (hand.GetPickableInHand() is Portafilter p)
+        {
+            p.StopThrowingOut();
+        }
     }
 }

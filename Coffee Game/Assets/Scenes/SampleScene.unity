@@ -6209,6 +6209,7 @@ GameObject:
   - component: {fileID: 427019292}
   - component: {fileID: 427019293}
   - component: {fileID: 427019294}
+  - component: {fileID: 427019295}
   m_Layer: 6
   m_Name: TestCup
   m_TagString: Untagged
@@ -6255,6 +6256,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   capacity: 150
+  meterShowTime: 0.5
 --- !u!50 &427019293
 Rigidbody2D:
   serializedVersion: 5
@@ -6328,6 +6330,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.45, y: 0.91}
   m_EdgeRadius: 0
+--- !u!210 &427019295
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427019290}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &476954681
 GameObject:
   m_ObjectHideFlags: 0
@@ -9230,6 +9244,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   capacity: 150
+  meterShowTime: 0.5
 --- !u!210 &1460761622
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -9408,7 +9423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainSprite: {fileID: 1779880475}
-  collider: {fileID: 0}
+  collider: {fileID: 1617561551}
   onPickedUp:
     m_PersistentCalls:
       m_Calls: []
@@ -9764,7 +9779,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

@@ -3,14 +3,8 @@ using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MilkPitcher : Pickable, ILiquidTransferable
+public class MilkPitcher : PickableLiquidHolder, ILiquidTransferable
 {
-    // ideally we want to store only milk and foam
-    [HideInInspector]
-    public LiquidHolder liquidHolder = new LiquidHolder();
-    [SerializeField] private float capacity = 150f;
-    private MultiColorMeter meter;
-
 
     # region Liquid Transfer
     private LiquidHolder targetLiquidHolder;
@@ -21,63 +15,15 @@ public class MilkPitcher : Pickable, ILiquidTransferable
     private new void Start()
     {
         base.Start();
-        meter = GetComponentInChildren<MultiColorMeter>();
-        meter.SetRuler(0.5f, 2);
-        liquidHolder.Capacity = capacity;
         liquidHolder.AddLiquid(new Liquid(LiquidType.Milk, 100f));
-        Debug.Log(liquidHolder.ToString());
-        UpdateMeter();
-        meter.SetVisible(false);
-        liquidHolder.onLiquidsChange.AddListener(UpdateMeter);
-        onPickedUp.AddListener(ShowMeter);
-        onDropped.AddListener(HideMeter);
+        liquidHolder.AddLiquid(new Liquid(LiquidType.MilkFoam, 40f));
     }
 
-    private void ShowMeter()
-    {
-        if (snapZone is null) meter.SetVisible(true);
-    }
-
-    private void HideMeter()
-    {
-        if (snapZone is null) meter.SetVisible(false);
-    }
-
-    public override void HoverEnter(Hand hand)
-    {
-        Highlight();
-        ShowMeter();
-    }
-
-    public new bool Interact(Hand hand)
-    {
-        return base.Interact(hand);
-    }
-
-    public override void ExitHover(Hand hand)
-    {
-        EndHighlight();
-        HideMeter();
-    }
-
-    public void ToggleMeterVisibility(bool visible)
-    {
-        meter.SetVisible(visible);
-    }
 
     public float GetMilkAmount()
     {
         var milk = liquidHolder.GetByName(LiquidType.Milk.ToString());
         return milk is null ? 0f : milk.amount;
-    }
-
-    private void UpdateMeter()
-    {
-        foreach (Liquid l in liquidHolder.liquids)
-        {
-            //Debug.Log($"{l.name}, {l.amount / capacity}, {l.color}");
-            meter.SetContent(l.name, l.amount / capacity, l.color);
-        }
     }
 
     private IEnumerator TransferLiquid()
@@ -88,11 +34,17 @@ public class MilkPitcher : Pickable, ILiquidTransferable
             yield return new WaitForNextFrameUnit();
             liqAmountToTransfer = Time.deltaTime * 33f;
             Liquid l = liquidHolder.GetTopMostLiquid();
-            if (l == null) break;
+            
+            if (l == null)
+            {
+                Debug.Log("Topmost Liquid is NULL");
+                break;
+            };
             if (l.amount < liqAmountToTransfer)
             {
                 liqAmountToTransfer = l.amount;
             }
+            Debug.Log($"{l.liquidType}, {liqAmountToTransfer}");
             targetLiquidHolder.AddLiquid(new Liquid(l.liquidType, liqAmountToTransfer));
             liquidHolder.SubtractLiquid(new Liquid(l.liquidType, liqAmountToTransfer));
         }

@@ -12,7 +12,6 @@ public class LiquidTransferZone : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {   
-        Debug.Log(col.gameObject.name);
         //ILiquidTransferable lqt = col.gameObject.GetComponent<ILiquidTransferable>();
         if (col.gameObject.TryGetComponent(out ILiquidTransferable lqt))
         {

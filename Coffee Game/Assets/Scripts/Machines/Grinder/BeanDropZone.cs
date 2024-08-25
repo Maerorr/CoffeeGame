@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BeanDropZone : MonoBehaviour, IInteractable
+public class BeanDropZone : MonoBehaviour
 {
     Grinder grinder;
 
@@ -42,21 +42,9 @@ public class BeanDropZone : MonoBehaviour, IInteractable
         }
     }
 
-    public void ExitHover(Hand hand)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if (hand.GetPickableInHand() is CoffeeBag bag)
-        {
-            bag.StopPouringBeans();
-            if (beanPour is not null)
-            {
-                StopCoroutine(beanPour);
-            }
-        }
-    }
-
-    public void HoverEnter(Hand hand)
-    {
-        if (hand.GetPickableInHand() is CoffeeBag bag)
+        if (col.gameObject.TryGetComponent(out CoffeeBag bag))
         {
             bag.StartPouringBeans();
             if (beanPour is not null)
@@ -66,4 +54,42 @@ public class BeanDropZone : MonoBehaviour, IInteractable
             beanPour = StartCoroutine(PourBeansToGrinder());
         }
     }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject.TryGetComponent(out CoffeeBag bag))
+        {
+            bag.StopPouringBeans();
+            {
+                StopCoroutine(beanPour);
+            }
+        }
+    }
+
+    // public void ExitHover(Hand hand)
+    // {
+    //     if (hand.GetPickableInHand() is CoffeeBag bag)
+    //     {
+    //         bag.StopPouringBeans();
+    //         if (beanPour is not null)
+    //         {
+    //             StopCoroutine(beanPour);
+    //         }
+    //     }
+    // }
+
+    // public void HoverEnter(Hand hand)
+    // {
+    //     Debug.Log("Pickabke over bean drop zone");
+    //     if (hand.GetPickableInHand() is CoffeeBag bag)
+    //     {
+    //         Debug.Log("COFFEE BAG over bean drop zone");
+    //         bag.StartPouringBeans();
+    //         if (beanPour is not null)
+    //         {
+    //             StopCoroutine(beanPour);
+    //         }
+    //         beanPour = StartCoroutine(PourBeansToGrinder());
+    //     }
+    // }
 }
