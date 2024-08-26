@@ -79,17 +79,13 @@ public class EspressoMachine : MonoBehaviour
     {
         p.ToggleLiquid(true);
         float pouredVal = 0f;
-        //var espresso = ;
-        Debug.Log($"Amount to pour: {amountToPour}");
         while (pouredVal < amountToPour)
         {
             cup.AddLiquid(new Liquid(LiquidType.Espresso, pourSpeed * Time.deltaTime));
             pouredVal += pourSpeed * Time.deltaTime;
-            Debug.Log($"poured val: {pouredVal}");
             yield return null;
         }
         cup.SetLiquid(new Liquid(LiquidType.Espresso, amountToPour));
-        Debug.Log($"setting liquid val to {amountToPour}");
         p.ToggleLiquid(false);
     }
 

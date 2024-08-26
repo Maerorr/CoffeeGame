@@ -33,24 +33,19 @@ public class LiquidHolder
     /// <param name="liquid"></param>
     public void AddLiquid(Liquid liquid)
     {
-        Debug.Log($"AddLiquid 1 {liquid.amount}");
         float currentAndNew = GetTotalLiquidAmount() + liquid.amount;
         if (currentAndNew > capacity)
         {
             liquid.amount = Mathf.Clamp(currentAndNew - capacity, 0f, float.MaxValue);
         }
-        Debug.Log($"AddLiquid 2 {liquid.amount}");
         int idx = liquids.FindIndex(el => el.name == liquid.name);
         if (idx == -1)
         {
             liquids.Add(liquid);
             onLiquidsChange.Invoke();
-            Debug.Log($"AddLiquid 3 {liquid.amount}");
             return;
         }
-        Debug.Log($"AddLiquid 4 {liquid.amount}");
         liquids[idx].Add(liquid.amount);
-        Debug.Log($"Liquid now at: {liquids[idx].amount}");
         onLiquidsChange.Invoke();
     }
 

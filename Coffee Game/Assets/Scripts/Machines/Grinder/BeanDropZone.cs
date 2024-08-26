@@ -10,6 +10,15 @@ public class BeanDropZone : MonoBehaviour
     [SerializeField] private float beansPerSecond = 2f;
 
     private Coroutine beanPour;
+    private float bagVelocity;
+    public float BagVelocity
+    {
+        get => bagVelocity;
+        set
+        {
+            bagVelocity = Mathf.Clamp(value, 0f, float.MaxValue);
+        }
+    }
 
     private void Start()
     {
@@ -37,8 +46,8 @@ public class BeanDropZone : MonoBehaviour
     {
         while (true)
         {
-            grinder.AddBeans(beansPerSecond * Time.deltaTime);
-            yield return new WaitForNextFrameUnit();
+            grinder.AddBeans(beansPerSecond * Time.deltaTime * (1f + bagVelocity * 1.5f));
+            yield return null;
         }
     }
 
@@ -46,6 +55,7 @@ public class BeanDropZone : MonoBehaviour
     {
         if (col.gameObject.TryGetComponent(out CoffeeBag bag))
         {
+            bag.SetDropZone(this);
             bag.StartPouringBeans();
             if (beanPour is not null)
             {
