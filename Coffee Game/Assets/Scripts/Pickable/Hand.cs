@@ -12,6 +12,8 @@ public class Hand : MonoBehaviour
     private IInteractable interactableOnClick = null;
     [SerializeField] LayerMask handRaycastLayerMask;
 
+    private bool isLeftMousePressed = false;
+
     public void OnLeftClick(InputAction.CallbackContext ctx)
     {
         if (clickToGrab)
@@ -44,6 +46,7 @@ public class Hand : MonoBehaviour
 
             // KEY FULLY PRESSED
             case InputActionPhase.Performed:
+                isLeftMousePressed = true;
                 if (_handPickable == null)
                 {
                     ClickNoItem();
@@ -56,6 +59,7 @@ public class Hand : MonoBehaviour
 
             // KEY LIFTED UP
             case InputActionPhase.Canceled:
+                isLeftMousePressed = false;
                 if (_handPickable == null)
                 {
                     DeclickNoItem();
@@ -136,7 +140,7 @@ public class Hand : MonoBehaviour
         {
             if (currentInteractable is not null)
             {
-                currentInteractable.EndInteraction(this);
+                if (isLeftMousePressed) currentInteractable.EndInteraction(this);
                 currentInteractable.ExitHover(this);
             }
             currentInteractable = null;

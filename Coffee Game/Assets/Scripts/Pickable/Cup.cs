@@ -11,4 +11,9 @@ public class Cup : PickableLiquidHolder
         liquidHolder.AddLiquid(liquid);
         UpdateMeter();
     }
+
+    public void SetLiquid(Liquid liquid)
+    {
+        liquidHolder.SetLiquid(liquid);
+    }
 }

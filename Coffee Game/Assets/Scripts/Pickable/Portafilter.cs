@@ -23,6 +23,7 @@ public class Portafilter : Pickable
         meter = GetComponentInChildren<MultiColorMeter>();
         meter.SetRuler(0.5f, 2);
         meter.SetVisible(false);
+        AddCoffee(20f);
     }
 
     public void AddCoffee(float c)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,12 +12,15 @@ public class EspressoMachine : MonoBehaviour
     private List<Portafilter> portafilters = new List<Portafilter>();
     private List<Cup> cups = new List<Cup>();
 
+    [SerializeField] private Gauge minigameGauge;
+
     [SerializeField] private List<MachineButton> buttons = new List<MachineButton>();
     private List<Coroutine> pouringCoroutines = new List<Coroutine>();
     private List<Coroutine> usedCoffeeCoroutines = new List<Coroutine>();
     [SerializeField] float pourSpeed = 10f;
 
     private float pourTimeFrame = 0.033f;
+    private int minigameTweenID;
 
     private void Start()
     {
@@ -29,28 +33,64 @@ public class EspressoMachine : MonoBehaviour
         }
     }
 
-    private void StartPouring(int id, Portafilter p, Cup cup)
+    private void StartPouring(int id, Portafilter p, Cup cup, float amountToPour)
     {
-        pouringCoroutines[id] = StartCoroutine(Pour(id, p, cup));
+        pouringCoroutines[id] = StartCoroutine(Pour(id, p, cup, amountToPour));
         usedCoffeeCoroutines[id] = StartCoroutine(SetCoffeeUsed(id, p));
     }
 
     private void StopPouring(int id)
     {
-        StopCoroutine(pouringCoroutines[id]);
-        StopCoroutine(usedCoffeeCoroutines[id]);
+        if (pouringCoroutines[id] != null) StopCoroutine(pouringCoroutines[id]);
+        if (usedCoffeeCoroutines[id] != null) StopCoroutine(usedCoffeeCoroutines[id]);
         portafilters[id].ToggleLiquid(false);
     }
 
-    private IEnumerator Pour(int id, Portafilter p, Cup cup)
+    private IEnumerator Minigame()
     {
-        p.ToggleLiquid(true);
+        GaugeUp();
         while (true)
         {
-            yield return new WaitForNextFrameUnit();
-            //cup.AddLiquid(new Espresso(p.groundsAmountInFilter(), pourSpeed * pourTimeFrame));
-            cup.AddLiquid(new Liquid(LiquidType.Espresso, pourSpeed * Time.deltaTime));
+            yield return null;
         }
+    }
+
+    private void GaugeUp()
+    {
+        var tween = DOTween.To(() => minigameGauge.Val, x => minigameGauge.Val = x, 1f, 1f)
+        .OnComplete(() => GaugeDown())
+        .SetEase(Ease.Linear)
+        .SetId(this);
+
+        minigameTweenID = tween.intId;
+    }
+
+    private void GaugeDown()
+    {
+        var tween = DOTween.To(() => minigameGauge.Val, x => minigameGauge.Val = x, 0f, 1f)
+        .OnComplete(() => GaugeUp())
+        .SetEase(Ease.Linear)
+        .SetId(this);
+
+        minigameTweenID = tween.intId;
+    }
+
+    private IEnumerator Pour(int id, Portafilter p, Cup cup, float amountToPour)
+    {
+        p.ToggleLiquid(true);
+        float pouredVal = 0f;
+        //var espresso = ;
+        Debug.Log($"Amount to pour: {amountToPour}");
+        while (pouredVal < amountToPour)
+        {
+            cup.AddLiquid(new Liquid(LiquidType.Espresso, pourSpeed * Time.deltaTime));
+            pouredVal += pourSpeed * Time.deltaTime;
+            Debug.Log($"poured val: {pouredVal}");
+            yield return null;
+        }
+        cup.SetLiquid(new Liquid(LiquidType.Espresso, amountToPour));
+        Debug.Log($"setting liquid val to {amountToPour}");
+        p.ToggleLiquid(false);
     }
 
     private IEnumerator SetCoffeeUsed(int id, Portafilter p)
@@ -94,7 +134,9 @@ public class EspressoMachine : MonoBehaviour
         if (portafilters[id] is not null &&
             cups[id] is not null)
         {
-            StartPouring(id, portafilters[id], cups[id]);
+            StartCoroutine(Minigame());
+            minigameGauge.ToggleTarget(true);
+            //StartPouring(id, portafilters[id], cups[id]);
         }
     }
 
@@ -103,7 +145,11 @@ public class EspressoMachine : MonoBehaviour
         if (portafilters[id] is not null &&
             cups[id] is not null)
         {
-            StopPouring(id);
+            minigameGauge.ToggleTarget(false);
+            DOTween.Kill(minigameTweenID);
+            float amountToPour = minigameGauge.Val * 40f;
+            StartPouring(id, portafilters[id], cups[id], amountToPour);
+            //StopPouring(id);
         }
     }
 }

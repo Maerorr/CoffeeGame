@@ -682,7 +682,7 @@ Transform:
   m_GameObject: {fileID: 143567449}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.684, z: -0.15}
+  m_LocalPosition: {x: 0, y: 0.168, z: -0.15}
   m_LocalScale: {x: 0.41461363, y: 0.41461363, z: 0.41461363}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5830,6 +5830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c9fdb6a5b18c34d8468fc62dffa5e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minigameGauge: {fileID: 949669861}
   buttons:
   - {fileID: 143567450}
   pourSpeed: 10
@@ -5851,6 +5852,7 @@ Transform:
   - {fileID: 143567453}
   - {fileID: 883811816}
   - {fileID: 199295778}
+  - {fileID: 949669862}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!210 &268289654
@@ -8215,10 +8217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41410f32b20674489a06412cb0a40a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  val: 0
   showTarget: 1
-  minAngle: -150
-  maxAngle: 75
+  minAngle: -120
+  maxAngle: 120
   targetMinAngle: -20
   targetMaxAngle: 20
   segments: 4
@@ -8226,7 +8227,7 @@ MonoBehaviour:
   bg: {fileID: 498724593}
   barPrefab: {fileID: 8961183388015875034, guid: 0833cd42109abdc46bad6e92f28d1307, type: 3}
   targetMesh: {fileID: 1068624933}
-  barsCount: 3
+  barsCount: 12
 --- !u!4 &949669862
 Transform:
   m_ObjectHideFlags: 0
@@ -8235,15 +8236,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949669860}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.260456, y: 2.154657, z: -0.028530594}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.011, z: 0.0014694054}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 498724595}
   - {fileID: 1402402849}
   - {fileID: 1068624930}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 268289653}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!210 &949669863
 SortingGroup:
@@ -10969,7 +10970,6 @@ SceneRoots:
   - {fileID: 1617561549}
   - {fileID: 268289653}
   - {fileID: 1829273052}
-  - {fileID: 949669862}
   - {fileID: 741259889}
   - {fileID: 2103700649}
   - {fileID: 1460761618}
