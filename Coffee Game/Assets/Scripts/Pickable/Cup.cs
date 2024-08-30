@@ -1,5 +1,9 @@
+using UnityEngine;
+
 public class Cup : PickableLiquidHolder
 {
+    [SerializeField] private CupType cupType;
+
     private new void Start()
     {
         base.Start();

@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
 
+[Serializable]
 public class Liquid
 {
-    protected LiquidType _liquidType;
+    [SerializeField] protected LiquidType _liquidType;
 
     public LiquidType liquidType
     {
@@ -15,7 +16,7 @@ public class Liquid
         get => _liquidType.ToString();
     }
 
-    protected float _amount;
+    [SerializeField] protected float _amount;
 
     public float amount
     {
@@ -54,6 +55,7 @@ public class Liquid
     }
 }
 
+[Serializable]
 public enum LiquidType
 {
     Espresso,
