@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Order", menuName = "ScriptableObject/Order")]
-public class Order : ScriptableObject
+public class OrderSO : ScriptableObject
 {
-    public List<DrinkSO> orderDrinks;
+    public List<OrderableDrinks> orderDrinks;
 }

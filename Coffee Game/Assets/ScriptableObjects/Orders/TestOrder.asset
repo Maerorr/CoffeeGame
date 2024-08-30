@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6070a8fffa4d1c4c8a2327d601df742, type: 3}
   m_Name: TestOrder
   m_EditorClassIdentifier: 
-  orderDrinks: []
+  orderDrinks: 0000000001000000

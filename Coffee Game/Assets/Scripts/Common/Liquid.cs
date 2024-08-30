@@ -53,6 +53,21 @@ public class Liquid
     {
         return 1f;
     }
+
+    public static Liquid Espresso(float val = 0f)
+    {
+        return new Liquid(LiquidType.Espresso, val);
+    }
+
+    public static Liquid Milk(float val = 0f)
+    {
+        return new Liquid(LiquidType.Milk, val);
+    }
+
+    public static Liquid MilkFoam(float val = 0f)
+    {
+        return new Liquid(LiquidType.MilkFoam, val);
+    }
 }
 
 [Serializable]

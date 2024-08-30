@@ -13,4 +13,10 @@ MonoBehaviour:
   m_Name: TestDrink
   m_EditorClassIdentifier: 
   cupType: 0
-  liquids: []
+  liquids:
+  - _liquidType: 0
+    _amount: 40
+  - _liquidType: 1
+    _amount: 100
+  - _liquidType: 2
+    _amount: 100
