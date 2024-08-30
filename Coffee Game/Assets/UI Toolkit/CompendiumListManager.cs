@@ -244,6 +244,7 @@ public class CompendiumListManager : MonoBehaviour
             {
                 RegisterEventListeners();
                 BuildRecipeList(currentPage);
+                BuildToppingList(currentPage);
             }
         }
     }
