@@ -3,11 +3,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BeanDropZone : MonoBehaviour
+public class BeanDropZone : MonoBehaviour, IInteractable
 {
     Grinder grinder;
 
     [SerializeField] private float beansPerSecond = 2f;
+
+    CoffeeBag bag;
 
     private Coroutine beanPour;
     private float bagVelocity;
@@ -27,6 +29,7 @@ public class BeanDropZone : MonoBehaviour
 
     public bool Interact(Hand hand)
     {
+        ExitHover(hand);
         return true;
     }
 
@@ -47,16 +50,46 @@ public class BeanDropZone : MonoBehaviour
         while (true)
         {
             grinder.AddBeans(beansPerSecond * Time.deltaTime * (1f + bagVelocity * 1.5f));
+
             yield return null;
         }
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    // void OnTriggerEnter2D(Collider2D col)
+    // {
+    //     if (col.gameObject.TryGetComponent(out CoffeeBag bag))
+    //     {
+    //         bag.SetDropZone(this);
+    //         bag.StartPouringBeans();
+    //         this.bag = bag;
+    //         if (beanPour is not null)
+    //         {
+    //             StopCoroutine(beanPour);
+    //         }
+    //         beanPour = StartCoroutine(PourBeansToGrinder());
+    //     }
+    // }
+
+    // void OnTriggerExit2D(Collider2D col)
+    // {
+    //     if (col.gameObject.TryGetComponent(out CoffeeBag bag))
+    //     {
+    //         bag.StopPouringBeans();
+    //         if (beanPour is not null)
+    //         {
+    //             StopCoroutine(beanPour);
+    //         }
+    //         this.bag = null;
+    //     }
+    // }
+
+    public void HoverEnter(Hand hand)
     {
-        if (col.gameObject.TryGetComponent(out CoffeeBag bag))
+        if (hand.GetPickableInHand() is CoffeeBag bag)
         {
             bag.SetDropZone(this);
             bag.StartPouringBeans();
+            this.bag = bag;
             if (beanPour is not null)
             {
                 StopCoroutine(beanPour);
@@ -65,14 +98,16 @@ public class BeanDropZone : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D col)
+    public void ExitHover(Hand hand)
     {
-        if (col.gameObject.TryGetComponent(out CoffeeBag bag))
+        if (hand.GetPickableInHand() is CoffeeBag bag)
         {
             bag.StopPouringBeans();
+            if (beanPour is not null)
             {
                 StopCoroutine(beanPour);
             }
+            this.bag = null;
         }
     }
 

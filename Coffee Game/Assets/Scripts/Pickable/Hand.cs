@@ -103,6 +103,11 @@ public class Hand : MonoBehaviour
         if (currentInteractable != interactableOnClick)
         {
             currentInteractable.Interact(this);
+            if (_handPickable != null)
+            {   
+                _handPickable.Drop();
+                _handPickable = null;
+            }
         }
     }
 

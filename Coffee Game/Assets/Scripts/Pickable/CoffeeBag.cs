@@ -16,7 +16,6 @@ public class CoffeeBag : Pickable
     private int rotateTweenID;
     private Coroutine velocityCoroutine;
 
-
     private new void Start()
     {
         base.Start();

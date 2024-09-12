@@ -103,6 +103,10 @@ public abstract class Pickable : MonoBehaviour, IInteractable// IPointerDownHand
         position.z = transform.position.z;
         transform.position = position;
     }
+    public bool IsSnapped()
+    {
+        return snapZone != null;
+    }
 
     public void SetSnapZone(SnapZone sz)
     {
